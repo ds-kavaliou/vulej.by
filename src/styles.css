@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+:root {
+  --container-wrapper-width: calc(100% - 3rem);
+}
+
+.container-wrapper {
+  width: var(--container-wrapper-width);
+  margin-inline: auto;
+}
+
+.container-wrapper:is(.layout-fixed *) {
+  --container-wrapper-width: min(96rem, calc(100% - 3rem));
+}
+
+@utility container {
+  @apply mx-auto;
+}

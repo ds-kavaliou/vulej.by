@@ -2,26 +2,34 @@ import { eq } from 'drizzle-orm'
 import { db } from '../database'
 import { ProductsTable } from '../database/schema'
 import { BaseRepository } from './types'
+import { mapProductFromDb } from './product.mappers'
+import { Product } from './product.types'
 
-export const repository: BaseRepository<any, unknown, unknown> = {
+export const repository: BaseRepository<Product, unknown, unknown> = {
   findById: async (id: string) => {
-    const query = await db.query.ProductsTable.findFirst({
+    const result = await db.query.ProductsTable.findFirst({
       where: eq(ProductsTable.id, id),
       with: {
         variants: true,
+        images: true,
       },
     })
 
-    return query
+    if (!result) {
+      return null
+    }
+
+    return mapProductFromDb(result)
   },
   findMany: async () => {
-    const query = db.query.ProductsTable.findMany({
+    const result = await db.query.ProductsTable.findMany({
       with: {
         variants: true,
+        images: true,
       },
     })
 
-    return query
+    return result.map(mapProductFromDb)
   },
   create: function (data: unknown) {
     throw new Error('Function not implemented.')

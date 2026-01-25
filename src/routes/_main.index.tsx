@@ -1,12 +1,17 @@
-import { repository } from '@/server/repositories/product.repository'
 import { createFileRoute } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
+
+const getRecommendedProducts = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { repository } =
+      await import('@/server/repositories/product.repository')
+
+    return await repository.findMany({ limit: 3 })
+  },
+)
 
 export const Route = createFileRoute('/_main/')({
-  loader: async () => {
-    const data = await repository.findMany()
-
-    return { products: data }
-  },
+  loader: async () => ({ products: await getRecommendedProducts() }),
   component: RouteComponent,
 })
 

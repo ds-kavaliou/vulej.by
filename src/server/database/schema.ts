@@ -8,7 +8,11 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core'
 
-import { relations } from 'drizzle-orm'
+import { relations as defineRelations } from 'drizzle-orm'
+
+/**
+ * TABLES
+ */
 
 export const ProductsTable = pgTable('products', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -21,15 +25,9 @@ export const ProductsTable = pgTable('products', {
   updatedAt: timestamp('updated_at').defaultNow(),
 })
 
-export const ProductToVariantsRelations = relations(
-  ProductsTable,
-  ({ many }) => ({
-    variants: many(ProductVariantsTable),
-  }),
-)
-
 export const ProductVariantsTable = pgTable('product_variants', {
   id: uuid('id').defaultRandom().primaryKey(),
+
   productId: uuid('product_id')
     .notNull()
     .references(() => ProductsTable.id, { onDelete: 'cascade' }),
@@ -44,16 +42,6 @@ export const ProductVariantsTable = pgTable('product_variants', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 })
-
-export const VariantsToProductRelations = relations(
-  ProductVariantsTable,
-  ({ one }) => ({
-    product: one(ProductsTable, {
-      fields: [ProductVariantsTable.productId],
-      references: [ProductsTable.id],
-    }),
-  }),
-)
 
 export const ProductImagesTable = pgTable('product_images', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -96,3 +84,50 @@ export const ProductCategoriesTable = pgTable(
   },
   (t) => [primaryKey({ columns: [t.productId, t.categoryId] })],
 )
+
+/**
+ * RELATIONS
+ */
+
+export const ProductTableRelations = defineRelations(
+  ProductsTable,
+  ({ many }) => ({
+    variants: many(ProductVariantsTable),
+    images: many(ProductImagesTable),
+  }),
+)
+
+export const ProductVariantsTableRelations = defineRelations(
+  ProductVariantsTable,
+  ({ one }) => ({
+    product: one(ProductsTable, {
+      fields: [ProductVariantsTable.productId],
+      references: [ProductsTable.id],
+    }),
+  }),
+)
+
+export const ProductImagesTableRelations = defineRelations(
+  ProductImagesTable,
+  ({ one }) => ({
+    product: one(ProductsTable, {
+      fields: [ProductImagesTable.productId],
+      references: [ProductsTable.id],
+    }),
+  }),
+)
+
+/**
+ * SCHEMA EXPORT
+ */
+
+export const schema = {
+  ProductsTable,
+  ProductVariantsTable,
+  ProductImagesTable,
+  CategoriesTable,
+  ProductCategoriesTable,
+  ProductTableRelations,
+  ProductVariantsTableRelations,
+  ProductImagesTableRelations,
+}

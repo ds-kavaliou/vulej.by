@@ -12,3 +12,5 @@ export interface FindManyParams<TEntity> {
   orderBy?: keyof TEntity | [keyof TEntity, 'asc' | 'desc'][]
   where?: Partial<TEntity> | Record<string, any>
 }
+
+export type WithRelations<T, R> = T & R

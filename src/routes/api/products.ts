@@ -1,4 +1,4 @@
-import { repository } from '@/server/repositories/product.repository'
+import { repository } from '@/server/repositories/products/repository'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/api/products')({

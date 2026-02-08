@@ -1,4 +1,4 @@
-export function getImageUrl(
+export function resolveImageUrl(
   path: string | null | undefined,
   options: {
     width?: number

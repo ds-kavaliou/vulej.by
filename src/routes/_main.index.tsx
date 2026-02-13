@@ -41,17 +41,19 @@ export function ProductCard({ product }: ProductCardProps) {
   const [activeIdx, setActiveIdx] = useState<number>(0)
   const activeVariant = product.variants[activeIdx]
 
+  const locale = 'be'
+
   const title = useMemo(
-    () => resolveLocale(product.title, 'be'),
-    [product.title],
+    () => resolveLocale(product.title, locale),
+    [product.id, locale],
   )
   const description = useMemo(
-    () => resolveLocale(product.description, 'be'),
-    [product.description],
+    () => resolveLocale(product.description, locale),
+    [product.id, locale],
   )
   const picture = useMemo(
     () => resolveImageUrl(product.image?.path),
-    [product.image],
+    [product.id],
   )
 
   return (
@@ -59,6 +61,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <img
         src={picture}
         alt={title}
+        loading="eager"
         className="transition duration-500 translate-y-8 group-hover:translate-y-4"
       />
 

@@ -1,6 +1,8 @@
 import { Badge, Button, Icon } from '@/common/components'
-import { cn } from '@/common/utils'
+import { Trans } from '@lingui/react/macro'
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+
+import { cn } from '@/common/utils'
 
 export const Route = createFileRoute('/_main')({
   component: RouteComponent,
@@ -38,7 +40,9 @@ function RouteComponent() {
             </Link>
 
             <div className="text-xs font-light text-center">
-              <span>© {2026} Designed and developed by </span>
+              <span>
+                © {2026} <Trans>Designed and developed by </Trans>
+              </span>
               <a
                 href="https://github.com/ds-kavaliou"
                 target="_blank"
@@ -75,7 +79,9 @@ export function Banner({
       className={cn('flex flex-col items-center py-2 text-sm', className)}
       {...props}
     >
-      <span className="text-center lg:hidden">Натуральны мёд у Гомелі</span>
+      <span className="text-center lg:hidden">
+        <Trans>Natural honey in Gomel</Trans>
+      </span>
       <a href="tel:+375297303792">
         <span>+375 (29) 730-37-92</span>
       </a>

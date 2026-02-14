@@ -1,14 +1,20 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { createServerFn } from '@tanstack/react-start'
 
-import { getLocaleFromRequest, i18n, initI18n } from '@/common/lib/i18n'
+import { getLocaleFromRequest } from '@/common/lib/i18n.server'
+import { i18n, initI18n } from '@/common/lib/i18n'
 
 import styles from '@/styles.css?url'
 
+const initI18nFn = createServerFn().handler(() =>
+  initI18n(getLocaleFromRequest()),
+)
+
 export const Route = createRootRoute({
-  loader: async () => {
-    await initI18n(getLocaleFromRequest())
+  beforeLoad: async () => {
+    await initI18nFn()
   },
   head: () => ({
     meta: [

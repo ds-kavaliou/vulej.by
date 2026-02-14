@@ -62,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
         src={picture}
         alt={title}
         loading="eager"
-        className="transition duration-500 translate-y-8 group-hover:translate-y-4"
+        className="transition duration-500 translate-y-8 group-hover:translate-y-4 aspect-square w-full"
       />
 
       <div className="px-4 flex flex-col items-center text-center gap-y-2 flex-1">

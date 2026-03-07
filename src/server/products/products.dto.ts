@@ -4,12 +4,7 @@ export type ProductDto = {
   isActive: boolean
   title: string
   description: string
-  variants: {
-    id: string
-    price: number
-    unit: string
-    size: number
-  }[]
+  variants: ProductVariantDto[]
   image?: {
     id: string
     alt: string | null
@@ -20,4 +15,11 @@ export type ProductDto = {
     alt: string | null
     path: string
   }[]
+}
+
+export type ProductVariantDto = {
+  id: string
+  price: number
+  unit: string
+  size: number
 }

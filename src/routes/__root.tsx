@@ -12,6 +12,8 @@ import { QueryClient } from '@tanstack/react-query'
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
 import { i18n, initI18n } from '@/common/lib/i18n'
 
+import { getCartStateOptions } from '@/features/cart'
+
 import styles from '@/styles.css?url'
 
 const initI18nFn = createServerFn().handler(() =>
@@ -23,6 +25,9 @@ export const Route = createRootRouteWithContext<{
 }>()({
   beforeLoad: async () => {
     await initI18nFn()
+  },
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(getCartStateOptions())
   },
   head: () => ({
     meta: [
@@ -65,12 +70,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           }}
           plugins={[
             {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            {
               name: 'Tanstack Query',
               render: <ReactQueryDevtools />,
+            },
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
             },
           ]}
         />

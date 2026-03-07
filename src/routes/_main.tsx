@@ -1,4 +1,5 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Trans } from '@lingui/react/macro'
 
 import {
@@ -17,6 +18,7 @@ import {
 
 import { cn } from '@/common/utils'
 import { useMediaQuery } from '@/common/hooks'
+import { getCartStateOptions } from '@/features/cart'
 
 export const Route = createFileRoute('/_main')({
   component: RouteComponent,
@@ -108,6 +110,9 @@ export function MenuButton({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const query = useSuspenseQuery(getCartStateOptions())
+
+  const total = query.data.totalQuantity
 
   return (
     <Drawer direction={isDesktop ? 'right' : 'bottom'}>
@@ -124,8 +129,9 @@ export function MenuButton({
           <Badge
             variant="destructive"
             className="absolute -right-2 -top-2 size-5.5 rounded-full"
+            hidden={total <= 0}
           >
-            10
+            {total}
           </Badge>
         </Button>
       </DrawerTrigger>
@@ -137,7 +143,7 @@ export function MenuButton({
         </DrawerHeader>
         <DrawerFooter>
           <Button>Submit</Button>
-          <DrawerClose>
+          <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
           </DrawerClose>
         </DrawerFooter>

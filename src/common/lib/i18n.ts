@@ -4,7 +4,9 @@ export const locales = {
   be: 'Belarusian',
   en: 'English',
   ru: 'Russian',
-}
+} as const
+
+export type LocaleKey = keyof typeof locales
 
 export const isLocaleValid = (locale: string) =>
   Object.keys(locales).includes(locale)

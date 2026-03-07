@@ -1,16 +1,15 @@
-import { ToggleGroup, ToggleGroupItem } from '@/common/components'
-import { resolveImageUrl } from '@/common/lib'
-import { resolveLocale } from '@/common/utils'
-import { Product } from '@/domain'
+import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { useMemo, useState } from 'react'
+
+import { ToggleGroup, ToggleGroupItem } from '@/common/components'
+import { ProductDto } from '@/server/products/products.dto'
+import { i18n, LocaleKey } from '@/common/lib'
 
 const getRecommendedProducts = createServerFn({ method: 'GET' }).handler(
   async () => {
-    const { service } = await import('@/server/services/products')
-
-    return await service.getRecommendedProducts()
+    const { getRecommendedProducts } = await import('@/server/products')
+    return await getRecommendedProducts(i18n.locale as LocaleKey)
   },
 )
 
@@ -34,43 +33,29 @@ function RouteComponent() {
 }
 
 type ProductCardProps = {
-  product: Product
+  product: ProductDto
 }
 
 export function ProductCard({ product }: ProductCardProps) {
   const [activeIdx, setActiveIdx] = useState<number>(0)
-  const activeVariant = product.variants[activeIdx]
 
-  const locale = 'be'
-
-  const title = useMemo(
-    () => resolveLocale(product.title, locale),
-    [product.id, locale],
-  )
-  const description = useMemo(
-    () => resolveLocale(product.description, locale),
-    [product.id, locale],
-  )
-  const picture = useMemo(
-    () => resolveImageUrl(product.image?.path),
-    [product.id],
-  )
+  const selected = product.variants[activeIdx]
 
   return (
     <div className="group flex flex-col gap-y-4 items-center max-w-sm overflow-hidden">
       <img
-        src={picture}
-        alt={title}
+        src={product.image?.path}
+        alt={product.image?.alt ?? product.title}
         loading="eager"
         className="transition duration-500 translate-y-8 group-hover:translate-y-4 aspect-square w-full"
       />
 
       <div className="px-4 flex flex-col items-center text-center gap-y-2 flex-1">
         <h2 className="font-head text-2xl font-medium uppercase transition-colors duration-500 group-hover:text-primary">
-          {title}
+          {product.title}
         </h2>
 
-        <ToggleGroup spacing={2} value={[activeVariant.id]}>
+        <ToggleGroup spacing={2} value={[selected.id]}>
           {product.variants.map((variant, idx) => (
             <ToggleGroupItem
               key={variant.id}
@@ -86,10 +71,10 @@ export function ProductCard({ product }: ProductCardProps) {
         </ToggleGroup>
 
         <div className="font-semibold text-xl text-primary">
-          <strong>{activeVariant.price} руб.</strong>
+          <strong>{selected.price} руб.</strong>
         </div>
         <p className="text-[.925rem] font-light text-muted-foreground">
-          {description}
+          {product.description}
         </p>
       </div>
     </div>

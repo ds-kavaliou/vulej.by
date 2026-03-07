@@ -1,11 +1,9 @@
-import { LocalizedText } from './utils'
-
-export type Product = {
+export type ProductDto = {
   id: string
   slug: string
   isActive: boolean
-  title: LocalizedText
-  description: LocalizedText
+  title: string
+  description: string
   variants: {
     id: string
     price: number

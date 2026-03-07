@@ -4,6 +4,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { initI18n } from './common/lib/i18n'
 
 initI18n(document.documentElement.lang)
+
 hydrateRoot(
   document,
   <StrictMode>

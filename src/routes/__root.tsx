@@ -1,7 +1,13 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Scripts,
+  createRootRouteWithContext,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createServerFn } from '@tanstack/react-start'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClient } from '@tanstack/react-query'
 
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
 import { i18n, initI18n } from '@/common/lib/i18n'
@@ -12,7 +18,9 @@ const initI18nFn = createServerFn().handler(() =>
   initI18n(getLocaleFromRequest()),
 )
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+}>()({
   beforeLoad: async () => {
     await initI18nFn()
   },
@@ -59,6 +67,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             {
               name: 'Tanstack Router',
               render: <TanStackRouterDevtoolsPanel />,
+            },
+            {
+              name: 'Tanstack Query',
+              render: <ReactQueryDevtools />,
             },
           ]}
         />

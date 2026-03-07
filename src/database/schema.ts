@@ -1,5 +1,6 @@
 import {
   boolean,
+  check,
   index,
   integer,
   pgEnum,
@@ -10,11 +11,7 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core'
 
-import { relations as defineRelations, InferSelectModel } from 'drizzle-orm'
-
-/**
- * CONSTS
- */
+import { relations as defineRelations, sql } from 'drizzle-orm'
 
 /** Supported Lanuages */
 export const supportedLanguages = ['be', 'en', 'ru'] as const
@@ -23,10 +20,6 @@ export const languageEnum = pgEnum('language_code', supportedLanguages)
 /** Supported Units */
 export const supportedUnits = ['g', 'kg', 'l', 'ml', 'piece'] as const
 export const unitEnum = pgEnum('unit_code', supportedUnits)
-
-/**
- * TABLES
- */
 
 export const ProductsTable = pgTable(
   'products',
@@ -125,6 +118,39 @@ export const CategoryI18nTable = pgTable(
   (t) => [primaryKey({ columns: [t.categoryId, t.lang] })],
 )
 
+export const CartsTable = pgTable('carts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  token: uuid('token').defaultRandom().notNull().unique(),
+
+  userId: uuid('user_id'),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const CartItemsTable = pgTable(
+  'cart_items',
+  {
+    cartId: uuid('cart_id')
+      .notNull()
+      .references(() => CartsTable.id, { onDelete: 'cascade' }),
+
+    variantId: uuid('variant_id')
+      .notNull()
+      .references(() => ProductVariantsTable.id, { onDelete: 'cascade' }),
+
+    quantity: integer('quantity').notNull(),
+
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.cartId, t.variantId] }),
+    index('cart_items_cart_idx').on(t.cartId),
+    check('cart_items_quantity_gt_zero', sql`${t.quantity} > 0`),
+  ],
+)
+
 /**
  * RELATIONS
  */
@@ -201,25 +227,24 @@ export const CategoryI18nRelations = defineRelations(
   }),
 )
 
-/**
- * DB TYPES
- */
+export const CartsRelations = defineRelations(CartsTable, ({ many }) => ({
+  items: many(CartItemsTable),
+}))
 
-export type ProductDB = InferSelectModel<typeof ProductsTable>
-export type ProductVariantDB = InferSelectModel<typeof ProductVariantsTable>
-export type ProductImageDB = InferSelectModel<typeof ProductImagesTable>
-export type ProductI18nDB = InferSelectModel<typeof ProductI18nTable>
-export type ProductWithRelationsDB = ProductDB & {
-  variants: ProductVariantDB[]
-  images: ProductImageDB[]
-  i18n: ProductI18nDB[]
-}
+export const CartItemsRelations = defineRelations(
+  CartItemsTable,
+  ({ one }) => ({
+    cart: one(CartsTable, {
+      fields: [CartItemsTable.cartId],
+      references: [CartsTable.id],
+    }),
 
-export type CategoryDB = InferSelectModel<typeof CategoriesTable>
-export type CategoryI18nDB = InferSelectModel<typeof CategoryI18nTable>
-export type CategoryWithRelationsDB = CategoryDB & {
-  i18n: CategoryI18nDB[]
-}
+    variant: one(ProductVariantsTable, {
+      fields: [CartItemsTable.variantId],
+      references: [ProductVariantsTable.id],
+    }),
+  }),
+)
 
 /**
  * SCHEMA EXPORT
@@ -228,19 +253,23 @@ export type CategoryWithRelationsDB = CategoryDB & {
 export const schema = {
   CategoriesTable,
   CategoryI18nTable,
+  CategoriesRelations,
+  CategoryI18nRelations,
 
   ProductsTable,
   ProductI18nTable,
   ProductVariantsTable,
   ProductImagesTable,
-  ProductCategoriesTable,
-
   ProductsTableRelations,
   ProductVariantsTableRelations,
   ProductImagesTableRelations,
-  ProductCategoriesRelations,
   ProductI18nRelations,
 
-  CategoriesRelations,
-  CategoryI18nRelations,
+  ProductCategoriesTable,
+  ProductCategoriesRelations,
+
+  CartsTable,
+  CartItemsTable,
+  CartsRelations,
+  CartItemsRelations,
 }

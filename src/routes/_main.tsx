@@ -1,8 +1,22 @@
-import { Badge, Button, Icon } from '@/common/components'
-import { Trans } from '@lingui/react/macro'
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { Trans } from '@lingui/react/macro'
+
+import {
+  Badge,
+  Button,
+  Icon,
+  Drawer,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/common/components'
 
 import { cn } from '@/common/utils'
+import { useMediaQuery } from '@/common/hooks'
 
 export const Route = createFileRoute('/_main')({
   component: RouteComponent,
@@ -93,23 +107,42 @@ export function MenuButton({
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <Button
-      variant="secondary"
-      size="icon"
-      className={cn('relative', className)}
-      {...props}
-    >
-      <span className="sr-only">Toggle mobile menu</span>
-      <Icon name="Ellipsis" className="w-8 h-8" />
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
-      <Badge
-        variant="destructive"
-        className="absolute -right-2 -top-2 size-5.5 rounded-full"
-      >
-        10
-      </Badge>
-    </Button>
+  return (
+    <Drawer direction={isDesktop ? 'right' : 'bottom'}>
+      <DrawerTrigger asChild>
+        <Button
+          variant="secondary"
+          size="icon"
+          className={cn('relative', className)}
+          {...props}
+        >
+          <span className="sr-only">Toggle mobile menu</span>
+          <Icon name="Ellipsis" className="w-8 h-8" />
+
+          <Badge
+            variant="destructive"
+            className="absolute -right-2 -top-2 size-5.5 rounded-full"
+          >
+            10
+          </Badge>
+        </Button>
+      </DrawerTrigger>
+
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+          <DrawerDescription>This action cannot be undone.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerFooter>
+          <Button>Submit</Button>
+          <DrawerClose>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 

@@ -13,6 +13,22 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/routes/_main.tsx:43
+#: src/features/catalog/components/catalog-item-action.tsx:39
+msgid "Add more"
+msgstr ""
+
+#: src/features/catalog/components/catalog-item-action.tsx:42
+msgid "Add to cart"
+msgstr ""
+
+#: src/features/catalog/components/catalog-item-action.tsx:36
+msgid "Adding..."
+msgstr ""
+
+#: src/routes/_main.tsx:60
 msgid "Designed and developed by "
 msgstr "Разработано "
+
+#: src/routes/_main.tsx:99
+msgid "Natural honey in Gomel"
+msgstr ""

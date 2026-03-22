@@ -25,7 +25,3 @@ export const getProductsWithRealations = async ({
     },
   })
 }
-
-export type ProductsWithRelations = NonNullable<
-  Awaited<ReturnType<typeof getProductsWithRealations>>
->

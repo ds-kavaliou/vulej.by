@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from '@tanstack/react-start/server'
 
-import { getCartByToken, createCart } from '@/server/cart'
+import { createCart, getCartByToken } from './cart.service'
 
 const COOKIE_KEY = 'cart'
 const COOKIE_OPTIONS = {

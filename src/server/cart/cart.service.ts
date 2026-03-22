@@ -1,53 +1,35 @@
-import { eq, sql } from 'drizzle-orm'
-
 import { LocaleKey } from '@/common/lib'
-import { db, CartsTable, CartItemsTable } from '@/database'
+import { db, CartsTable } from '@/database'
 
 import { mapCartToDto } from './cart.mapper'
-import { getCartWithRelations } from './cart.queries'
+import { adjustCartItem, findCartByToken, getCartWithItems } from './cart.db'
 
 export const createCart = async () => {
   const [cart] = await db.insert(CartsTable).values({}).returning()
+
   return cart
 }
 
 export const getCartByToken = async (token: string) => {
-  return db.query.CartsTable.findFirst({
-    where: eq(CartsTable.token, token),
-  })
+  return findCartByToken(token)
 }
 
 export const getCartStateById = async (id: string, locale: LocaleKey) => {
-  const result = await getCartWithRelations(id)
+  const result = await getCartWithItems(id)
 
   if (!result) throw new Error('Cart not found')
 
   return mapCartToDto(result, locale)
 }
 
-export const addToCart = async (cartId: string, variantId: string) => {
-  const updatedAt = new Date()
+export const incrementCartItem = async (cartId: string, variantId: string) => {
+  return adjustCartItem(cartId, variantId, 'increment')
+}
 
-  await db
-    .insert(CartItemsTable)
-    .values({
-      cartId,
-      variantId,
-      quantity: 1,
-      updatedAt,
-    })
-    .onConflictDoUpdate({
-      target: [CartItemsTable.cartId, CartItemsTable.variantId],
-      set: {
-        quantity: sql`${CartItemsTable.quantity} + 1`,
-        updatedAt,
-      },
-    })
+export const decrementCartItem = async (cartId: string, variantId: string) => {
+  return adjustCartItem(cartId, variantId, 'decrement')
+}
 
-  await db
-    .update(CartsTable)
-    .set({
-      updatedAt,
-    })
-    .where(eq(CartsTable.id, cartId))
+export const removeCartItem = async (cartId: string, variantId: string) => {
+  return adjustCartItem(cartId, variantId, 'clear')
 }

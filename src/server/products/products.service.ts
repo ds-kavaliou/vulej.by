@@ -1,6 +1,6 @@
 import { LocaleKey } from '@/common/lib'
 
-import { getProductsWithRealations } from './products.queries'
+import { getProductsWithRealations } from './products.db'
 import { mapProductToDto } from './products.mapper'
 
 export const getRecommendedProducts = async (locale: LocaleKey) => {

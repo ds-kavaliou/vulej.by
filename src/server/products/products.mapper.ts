@@ -1,7 +1,7 @@
 import { LocaleKey, resolveImageUrl } from '@/common/lib'
 
 import { ProductDto } from './products.dto'
-import { ProductsWithRelations } from './products.queries'
+import { ProductsWithRelations } from './products.types'
 
 export const mapProductToDto = (
   product: ProductsWithRelations[number],

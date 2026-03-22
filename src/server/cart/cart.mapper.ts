@@ -1,6 +1,6 @@
-import { LocaleKey } from '@/common/lib'
+import { LocaleKey, resolveImageUrl } from '@/common/lib'
 
-import { CartWithRelations } from './cart.queries'
+import { CartWithRelations } from './cart.types'
 import { CartDto } from './cart.dto'
 
 export function mapCartToDto(
@@ -14,8 +14,12 @@ export function mapCartToDto(
     const translation =
       product.i18n.find((entry) => entry.lang === locale) ?? product.i18n.at(0)
 
-    const image =
-      product.images.find((img) => img.isPrimary) ?? product.images.at(0)
+    const images = product.images.map((x) => ({
+      ...x,
+      path: resolveImageUrl(x.path),
+    }))
+
+    const image = images.find((img) => img.isPrimary) ?? images.at(0)
 
     const subtotal = variant.price * item.quantity
 

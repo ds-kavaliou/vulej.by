@@ -1,5 +1,4 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { Trans } from '@lingui/react/macro'
 
 import {
@@ -14,11 +13,12 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerSection,
 } from '@/common/components'
 
 import { cn } from '@/common/utils'
 import { useMediaQuery } from '@/common/hooks'
-import { getCartStateOptions } from '@/features/cart'
+import { CartItem, useCartState } from '@/features/cart'
 
 export const Route = createFileRoute('/_main')({
   component: RouteComponent,
@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_main')({
 function RouteComponent() {
   return (
     <div className="flex flex-col min-h-svh">
-      <header className="bg-white shadow sticky top-0">
+      <header className="bg-white shadow sticky top-0 z-50">
         <div className="container-wrapper">
           <div className="container grid grid-cols-[auto_1fr_auto] grid-rows-[80px] items-center">
             <Logo />
@@ -110,9 +110,10 @@ export function MenuButton({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
-  const query = useSuspenseQuery(getCartStateOptions())
+  const cart = useCartState()
 
-  const total = query.data.totalQuantity
+  const total = cart.data.totalQuantity
+  const items = cart.data.items
 
   return (
     <Drawer direction={isDesktop ? 'right' : 'bottom'}>
@@ -141,6 +142,13 @@ export function MenuButton({
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
+
+        <DrawerSection>
+          {items.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </DrawerSection>
+
         <DrawerFooter>
           <Button>Submit</Button>
           <DrawerClose asChild>

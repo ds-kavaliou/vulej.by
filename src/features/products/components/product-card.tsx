@@ -1,26 +1,24 @@
-import { JSX, useState } from 'react'
+import { useState } from 'react'
 
-import { ProductDto } from '@/server/products'
+import { ProductDto, ProductVariantDto } from '@/server/products'
 import { ToggleGroup, ToggleGroupItem } from '@/common/components'
 
 type ProductCardProps = {
   product: ProductDto
-  render: (selected: ProductDto['variants'][number]) => JSX.Element
+  action: (selected: ProductVariantDto) => React.ReactNode
 }
 
-export function ProductCard({ product, render }: ProductCardProps) {
+export function ProductCard({ product, action }: ProductCardProps) {
   const [activeIdx, setActiveIdx] = useState(0)
-
   const selected = product.variants[activeIdx]
-  const actions = render(selected)
 
   return (
-    <div className="group flex flex-col gap-y-4 items-center max-w-sm overflow-hidden">
+    <div className="group flex flex-col gap-y-4 items-center max-w-sm p-2 overflow-hidden">
       <img
         src={product.image?.path}
         alt={product.image?.alt ?? product.title}
-        loading="eager"
         className="transition duration-500 translate-y-8 group-hover:translate-y-4 aspect-square w-full"
+        loading="eager"
       />
 
       <div className="px-4 flex flex-col items-center text-center gap-y-2 flex-1">
@@ -51,7 +49,7 @@ export function ProductCard({ product, render }: ProductCardProps) {
         </p>
       </div>
 
-      <div>{actions}</div>
+      <div>{action(selected)}</div>
     </div>
   )
 }

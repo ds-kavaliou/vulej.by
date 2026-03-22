@@ -116,7 +116,7 @@ export function MenuButton({
   const items = cart.data.items
 
   return (
-    <Drawer direction={isDesktop ? 'right' : 'bottom'}>
+    <Drawer direction={isDesktop ? 'right' : 'bottom'} autoFocus>
       <DrawerTrigger asChild>
         <Button
           variant="secondary"

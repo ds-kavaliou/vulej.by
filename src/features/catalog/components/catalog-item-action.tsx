@@ -13,7 +13,7 @@ export function CatalogItemAction({ selected }: CatalogItemActionProps) {
   const mutation = useUpdateCartMutation()
   const item = useCartItem(selected.id)
 
-  const quantity = item.quantity
+  const quantity = item?.quantity ?? 0
   const isInCart = quantity > 0
 
   return (

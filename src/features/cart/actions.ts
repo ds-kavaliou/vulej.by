@@ -8,6 +8,7 @@ import {
 
 import { CartKeys } from './consts'
 import type { LocaleKey } from '@/common/lib'
+import type { CartItemDto } from '@/server/cart'
 import {
   decrementCartItem,
   getCartStateById,
@@ -49,7 +50,7 @@ export const useCartItemsMap = () => {
   })
 }
 
-export const useCartItem = (variantId: string) => {
+export const useCartItem = (variantId: string): CartItemDto | null => {
   const { data } = useCartItemsMap()
   return data[variantId] ?? null
 }

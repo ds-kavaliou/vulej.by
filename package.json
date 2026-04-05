@@ -10,6 +10,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
+    "prepare": "lefthook install",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "lingui:update": "lingui extract --clean && lingui compile",
@@ -48,6 +49,8 @@
     "vite-tsconfig-paths": "^6.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@lingui/cli": "^5.9.4",
     "@lingui/vite-plugin": "^5.9.4",
     "@tanstack/devtools-vite": "^0.6.0",
@@ -61,6 +64,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "drizzle-kit": "^0.31.10",
     "jsdom": "^27.0.0",
+    "lefthook": "^2.1.4",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",
     "typescript": "^5.7.2",

@@ -1,6 +1,6 @@
 import { and, eq, sql } from 'drizzle-orm'
 
-import { db, CartsTable, CartItemsTable } from '@/database'
+import { CartItemsTable, CartsTable, db } from '@/database'
 
 export async function createCart(userId?: string) {
   const [cart] = await db
@@ -119,6 +119,7 @@ export async function adjustCartItem(
             quantity: CartItemsTable.quantity,
           })
 
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (decremented) {
           result = decremented
         } else {

@@ -4,17 +4,17 @@ export type ProductDto = {
   isActive: boolean
   title: string
   description: string
-  variants: ProductVariantDto[]
+  variants: Array<ProductVariantDto>
   image?: {
     id: string
     alt: string | null
     path: string
   }
-  images: {
+  images: Array<{
     id: string
     alt: string | null
     path: string
-  }[]
+  }>
 }
 
 export type ProductVariantDto = {

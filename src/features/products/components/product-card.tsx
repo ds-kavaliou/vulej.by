@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ProductDto, ProductVariantDto } from '@/server/products'
+import type { ProductDto, ProductVariantDto } from '@/server/products'
 import { ToggleGroup, ToggleGroupItem } from '@/common/components'
 
 type ProductCardProps = {

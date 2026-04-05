@@ -1,6 +1,6 @@
-import { Icon } from '@/common/components'
-import { CartItemDto } from '@/server/cart'
 import { useUpdateCartMutation } from '../actions'
+import type { CartItemDto } from '@/server/cart'
+import { Icon } from '@/common/components'
 
 type CartItemProps = {
   item: CartItemDto

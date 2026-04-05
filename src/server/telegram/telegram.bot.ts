@@ -11,7 +11,7 @@ export const bot = new Bot(token)
 
 bot.use(async (ctx, next) => {
   const userId = ctx.from?.id
-  if (!userId || !hasPermission(ctx.from?.id)) {
+  if (!userId || !hasPermission(ctx.from.id)) {
     return ctx.reply('You are not authorized to use this bot')
   }
 

@@ -1,29 +1,29 @@
-import {
+import type { InferInsertModel } from 'drizzle-orm'
+import type {
   CategoriesTable,
   CategoryI18nTable,
   ProductI18nTable,
   ProductImagesTable,
-  ProductsTable,
   ProductVariantsTable,
+  ProductsTable,
 } from './schema'
-import { InferInsertModel } from 'drizzle-orm'
 
 export type ProductWithRelationsInsert = InferInsertModel<
   typeof ProductsTable
 > & {
-  variants: Omit<
+  variants: Array<Omit<
     InferInsertModel<typeof ProductVariantsTable>,
     'id' | 'productId'
-  >[]
-  images: Omit<InferInsertModel<typeof ProductImagesTable>, 'productId'>[]
-  i18n: Omit<InferInsertModel<typeof ProductI18nTable>, 'productId'>[]
-  categories: string[]
+  >>
+  images: Array<Omit<InferInsertModel<typeof ProductImagesTable>, 'productId'>>
+  i18n: Array<Omit<InferInsertModel<typeof ProductI18nTable>, 'productId'>>
+  categories: Array<string>
 }
 
 export type CategoryWithRelationsInsert = InferInsertModel<
   typeof CategoriesTable
 > & {
-  i18n: Omit<InferInsertModel<typeof CategoryI18nTable>, 'categoryId'>[]
+  i18n: Array<Omit<InferInsertModel<typeof CategoryI18nTable>, 'categoryId'>>
 }
 
 export const enum ProductCategories {
@@ -32,7 +32,7 @@ export const enum ProductCategories {
   GIFT_SETS = 'gift-sets',
 }
 
-export const categories: CategoryWithRelationsInsert[] = [
+export const categories: Array<CategoryWithRelationsInsert> = [
   {
     slug: ProductCategories.HONEY,
     isActive: true,
@@ -98,7 +98,7 @@ export const categories: CategoryWithRelationsInsert[] = [
   },
 ]
 
-export const products: ProductWithRelationsInsert[] = [
+export const products: Array<ProductWithRelationsInsert> = [
   {
     slug: 'buckwheat-honey',
     isActive: true,

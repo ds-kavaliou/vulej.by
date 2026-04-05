@@ -17,5 +17,5 @@ export type CartDto = {
   id: string
   totalQuantity: number
   subtotal: number
-  items: CartItemDto[]
+  items: Array<CartItemDto>
 }

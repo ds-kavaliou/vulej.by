@@ -6,16 +6,16 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 
+import { CartKeys } from './consts'
+import type { LocaleKey } from '@/common/lib'
 import {
-  getOrCreateCart,
-  getCartStateById,
-  incrementCartItem,
   decrementCartItem,
+  getCartStateById,
+  getOrCreateCart,
+  incrementCartItem,
   removeCartItem,
 } from '@/server/cart'
-import { i18n, LocaleKey } from '@/common/lib'
-
-import { CartKeys } from './consts'
+import { i18n } from '@/common/lib'
 
 /** get */
 export const getCartStateAction = createServerFn().handler(async () => {
@@ -69,7 +69,7 @@ export const updateCartAction = createServerFn({ method: 'POST' })
       await incrementCartItem(cart.id, data.variantId)
     } else if (data.intent === 'decrement') {
       await decrementCartItem(cart.id, data.variantId)
-    } else if (data.intent === 'clear') {
+    } else {
       await removeCartItem(cart.id, data.variantId)
     }
 

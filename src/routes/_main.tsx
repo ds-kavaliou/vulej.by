@@ -1,19 +1,19 @@
-import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
+import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
 import { Trans } from '@lingui/react/macro'
 
 import {
   Badge,
   Button,
-  Icon,
   Drawer,
-  DrawerTrigger,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerTitle,
   DrawerSection,
+  DrawerTitle,
+  DrawerTrigger,
+  Icon,
 } from '@/common/components'
 
 import { cn } from '@/common/utils'

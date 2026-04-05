@@ -30,7 +30,7 @@ export function resolveImageUrl(
 
   if (width) url.searchParams.set('width', width.toString())
   if (quality) url.searchParams.set('quality', quality.toString())
-  if (format) url.searchParams.set('format', format)
+  url.searchParams.set('format', format)
 
   return url.toString()
 }

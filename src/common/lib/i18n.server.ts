@@ -5,7 +5,7 @@ import {
   setCookie,
 } from '@tanstack/react-start/server'
 
-import { isLocaleValid, defaultLocale } from './i18n'
+import { defaultLocale, isLocaleValid } from './i18n'
 
 const COOKIE_KEY = 'locale'
 const COOKIE_OPTIONS = {

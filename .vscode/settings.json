@@ -19,5 +19,20 @@
   "tailwindCSS.classFunctions": ["cva", "cn"],
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.packageManager": "pnpm",
+  "eslint.nodePath": "node_modules",
+  "eslint.runtime": "node",
+  "eslint.debug": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": true,
+  "js/ts.tsserver.experimental.enableProjectDiagnostics": true
 }

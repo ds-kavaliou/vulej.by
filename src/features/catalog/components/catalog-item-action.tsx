@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/react/macro'
 
-import { ProductVariantDto } from '@/server/products'
-import { useUpdateCartMutation, useCartItem } from '@/features/cart'
+import type { ProductVariantDto } from '@/server/products'
+import { useCartItem, useUpdateCartMutation } from '@/features/cart'
 
 import { Button, Icon } from '@/common/components'
 
@@ -13,7 +13,7 @@ export function CatalogItemAction({ selected }: CatalogItemActionProps) {
   const mutation = useUpdateCartMutation()
   const item = useCartItem(selected.id)
 
-  const quantity = item?.quantity ?? 0
+  const quantity = item.quantity
   const isInCart = quantity > 0
 
   return (

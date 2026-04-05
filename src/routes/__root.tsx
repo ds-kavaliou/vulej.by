@@ -7,7 +7,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createServerFn } from '@tanstack/react-start'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { QueryClient } from '@tanstack/react-query'
+import type { QueryClient } from '@tanstack/react-query'
 
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
 import { i18n, initI18n } from '@/common/lib/i18n'

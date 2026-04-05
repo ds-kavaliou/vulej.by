@@ -1,7 +1,8 @@
-import { LocaleKey, resolveImageUrl } from '@/common/lib'
+import type { LocaleKey} from '@/common/lib';
 
-import { CartWithRelations } from './cart.types'
-import { CartDto } from './cart.dto'
+import type { CartWithRelations } from './cart.types'
+import type { CartDto } from './cart.dto'
+import { resolveImageUrl } from '@/common/lib'
 
 export function mapCartToDto(
   cart: CartWithRelations,

@@ -5,8 +5,8 @@ import {
   ProductCategoriesTable,
   ProductI18nTable,
   ProductImagesTable,
-  ProductsTable,
   ProductVariantsTable,
+  ProductsTable,
 } from './schema'
 import { categories, products } from './seed.data'
 

@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react'
 import { createRouter } from '@tanstack/react-router'
 import { QueryClient } from '@tanstack/react-query'
 import { I18nProvider } from '@lingui/react'
@@ -7,6 +6,7 @@ import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { i18n } from './common/lib/i18n'
+import type { PropsWithChildren } from 'react'
 
 export const getRouter = () => {
   const queryClient = new QueryClient()

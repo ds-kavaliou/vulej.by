@@ -5,7 +5,7 @@ import { ProductsTable, db } from '@/database'
 export type FindManyParams = {
   limit?: number
   offset?: number
-  ids?: string[]
+  ids?: Array<string>
 }
 
 export const getProductsWithRealations = async ({

@@ -53,7 +53,7 @@ pre-push:
   parallel: true
   jobs:
     - name: tests
-      run: pnpm test run
+      run: pnpm test
       # Skip in CI if you have separate test step
       skip:
         - ci

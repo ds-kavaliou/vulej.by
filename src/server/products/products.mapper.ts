@@ -1,4 +1,4 @@
-import type { LocaleKey} from '@/common/lib';
+import type { LocaleKey } from '@/common/lib'
 
 import type { ProductDto } from './products.dto'
 import type { ProductsWithRelations } from './products.types'

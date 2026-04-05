@@ -1,4 +1,4 @@
-import type { LocaleKey} from '@/common/lib';
+import type { LocaleKey } from '@/common/lib'
 
 import type { CartWithRelations } from './cart.types'
 import type { CartDto } from './cart.dto'

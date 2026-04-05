@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 
 import { ProductKeys } from './consts'
-import type { LocaleKey } from '@/common/lib';
+import type { LocaleKey } from '@/common/lib'
 import { i18n } from '@/common/lib'
 
 const getRecommendedProductsAction = createServerFn({ method: 'GET' }).handler(

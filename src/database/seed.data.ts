@@ -11,10 +11,9 @@ import type {
 export type ProductWithRelationsInsert = InferInsertModel<
   typeof ProductsTable
 > & {
-  variants: Array<Omit<
-    InferInsertModel<typeof ProductVariantsTable>,
-    'id' | 'productId'
-  >>
+  variants: Array<
+    Omit<InferInsertModel<typeof ProductVariantsTable>, 'id' | 'productId'>
+  >
   images: Array<Omit<InferInsertModel<typeof ProductImagesTable>, 'productId'>>
   i18n: Array<Omit<InferInsertModel<typeof ProductI18nTable>, 'productId'>>
   categories: Array<string>

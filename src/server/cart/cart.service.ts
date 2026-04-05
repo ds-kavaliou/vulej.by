@@ -3,7 +3,6 @@ import { adjustCartItem, findCartByToken, getCartWithItems } from './cart.db'
 import type { LocaleKey } from '@/common/lib'
 import { CartsTable, db } from '@/database'
 
-
 export const createCart = async () => {
   const [cart] = await db.insert(CartsTable).values({}).returning()
 

@@ -1,6 +1,7 @@
 //  @ts-check
 
 import { tanstackConfig } from '@tanstack/eslint-config'
+import pluginLingui from 'eslint-plugin-lingui'
 
 export default [
   {
@@ -15,5 +16,6 @@ export default [
       'prettier.config.js',
     ],
   },
+  pluginLingui.configs['flat/recommended'],
   ...tanstackConfig,
 ]

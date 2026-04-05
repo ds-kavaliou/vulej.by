@@ -15,15 +15,15 @@ msgstr ""
 
 #: src/features/catalog/components/catalog-item-action.tsx:39
 msgid "Add more"
-msgstr ""
+msgstr "Добавить"
 
 #: src/features/catalog/components/catalog-item-action.tsx:42
 msgid "Add to cart"
-msgstr ""
+msgstr "Добавить"
 
 #: src/features/catalog/components/catalog-item-action.tsx:36
 msgid "Adding..."
-msgstr ""
+msgstr "Добавляю..."
 
 #: src/routes/_main.tsx:60
 msgid "Designed and developed by "
@@ -31,4 +31,4 @@ msgstr "Разработано "
 
 #: src/routes/_main.tsx:99
 msgid "Natural honey in Gomel"
-msgstr ""
+msgstr "Натуральный мёд в Гомеле"

@@ -1,0 +1,4 @@
+/*eslint-disable*/ import type { Messages } from '@lingui/core'
+export const messages = JSON.parse(
+  '{"4yp4G3":["Add to cart"],"5A4TZa":["Adding..."],"M8GDS+":["Natural honey in Gomel"],"iOiHwJ":["Add more"],"wX4/NH":["Designed and developed by "]}',
+) as Messages

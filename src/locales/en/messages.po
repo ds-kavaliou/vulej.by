@@ -14,12 +14,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/features/catalog/components/catalog-item-action.tsx:39
-#~ msgid "Add more"
-#~ msgstr "Add more"
-
-#: src/features/catalog/components/catalog-item-action.tsx:39
-msgid "Add one more"
-msgstr "Add one more"
+msgid "Add more"
+msgstr "Add more"
 
 #: src/features/catalog/components/catalog-item-action.tsx:42
 msgid "Add to cart"

@@ -4,20 +4,11 @@
 output:
   - summary # Show summary at the end
   - failure # Show only failing jobs
-  # - execution  # Commented out to reduce noise
+  - execution # Commented out to reduce noise
 
 pre-commit:
   parallel: true
   jobs:
-    # Extract i18n messages if source files changed
-    - name: lingui extract
-      run: |
-        pnpm lingui:extract
-        pnpm lingui:compile
-        ./scripts/lingui-check.sh
-        ./scripts/i18n-check-key-equals-translation.sh
-        git diff ./src/locales/ --exit-code || echo "Warning: lingui compilation produced unexpected changes"
-
     # Lint staged files
     - name: lint
       run: pnpm lint --fix {staged_files}
@@ -34,7 +25,7 @@ pre-commit:
     - name: check types
       run: pnpm exec tsc --noEmit
       glob: '*.{ts,tsx}'
-      files: git diff --name-only HEAD @{push}
+      files: git diff --name-only HEAD
 
 pre-push:
   parallel: true

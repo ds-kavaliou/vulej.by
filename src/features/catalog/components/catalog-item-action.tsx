@@ -36,7 +36,7 @@ export function CatalogItemAction({ selected }: CatalogItemActionProps) {
           <Trans>Adding...</Trans>
         ) : isInCart ? (
           <>
-            <Trans>Add more</Trans> {quantity}
+            <Trans>Add one more</Trans> {quantity}
           </>
         ) : (
           <Trans>Add to cart</Trans>

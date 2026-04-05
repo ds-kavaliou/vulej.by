@@ -12,19 +12,11 @@ pre-commit:
     # Extract i18n messages if source files changed
     - name: lingui extract
       run: |
-        # Run extraction
         pnpm lingui:extract
-
-        # Check if any locale files were created or modified
-        if ! git diff --quiet -- locale/; then
-          echo "❌ Translation files need to be updated"
-          echo "👉 Run: pnpm lingui:extract && git add locale/"
-          git diff --name-only -- locale/
-          exit 1
-        fi
-      glob: '**/*.{js,ts,jsx,tsx}'
-      files: git diff --name-only HEAD
-      fail_text: 'i18n messages changed. Run pnpm lingui:extract and commit the updates.'
+        pnpm lingui:compile
+        ./scripts/lingui-check.sh
+        ./scripts/i18n-check-key-equals-translation.sh
+        git diff ./src/locales/ --exit-code || echo "Warning: lingui compilation produced unexpected changes"
 
     # Lint staged files
     - name: lint

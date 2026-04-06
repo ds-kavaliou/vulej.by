@@ -10,6 +10,7 @@ export default [
       '.vinxi/**',
       '.history/**',
       '.tanstack/**',
+      '.netlify/**',
       'dist/**',
       'src/locales/**',
       'lingui.config.js',

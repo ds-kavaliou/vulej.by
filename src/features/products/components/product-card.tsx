@@ -1,7 +1,10 @@
 import { useState } from 'react'
 
 import type { ProductDto, ProductVariantDto } from '@/server/products'
+
 import { ToggleGroup, ToggleGroupItem } from '@/common/components'
+import { Measurement, Price } from '@/common/presentation'
+import { useLocale } from '@/common/hooks'
 
 type ProductCardProps = {
   product: ProductDto
@@ -9,6 +12,8 @@ type ProductCardProps = {
 }
 
 export function ProductCard({ product, action }: ProductCardProps) {
+  const locale = useLocale()
+
   const [activeIdx, setActiveIdx] = useState(0)
   const selected = product.variants[activeIdx]
 
@@ -35,14 +40,17 @@ export function ProductCard({ product, action }: ProductCardProps) {
               pressed={activeIdx === idx}
               onPressedChange={() => setActiveIdx(idx)}
             >
-              <span>{variant.size}</span>
-              <span className="text-[.625rem]">{variant.unit}</span>
+              <Measurement
+                value={variant.size}
+                unit={variant.unit}
+                locale={locale}
+              />
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
 
         <div className="font-semibold text-xl text-primary">
-          <strong>{selected.price} руб.</strong>
+          <Price value={selected.price} locale={locale} />
         </div>
         <p className="text-[.925rem] font-light text-muted-foreground">
           {product.description}

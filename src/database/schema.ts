@@ -12,13 +12,12 @@ import {
 } from 'drizzle-orm/pg-core'
 
 import { relations as defineRelations, sql } from 'drizzle-orm'
+import { supportedLanguages, supportedUnits } from '@/common/constants'
 
-/** Supported Lanuages */
-export const supportedLanguages = ['be', 'en', 'ru'] as const
+/** Supported Languages */
 export const languageEnum = pgEnum('language_code', supportedLanguages)
 
 /** Supported Units */
-export const supportedUnits = ['g', 'kg', 'l', 'ml', 'piece'] as const
 export const unitEnum = pgEnum('unit_code', supportedUnits)
 
 export const ProductsTable = pgTable(

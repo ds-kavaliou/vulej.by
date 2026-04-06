@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 
 import { CartKeys } from './consts'
-import type { LocaleKey } from '@/common/lib'
+import type { LocaleKey } from '@/common/constants'
 import type { CartItemDto } from '@/server/cart'
 import {
   decrementCartItem,
@@ -66,12 +66,16 @@ export const updateCartAction = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const cart = await getOrCreateCart()
 
-    if (data.intent === 'increment') {
-      await incrementCartItem(cart.id, data.variantId)
-    } else if (data.intent === 'decrement') {
-      await decrementCartItem(cart.id, data.variantId)
-    } else {
-      await removeCartItem(cart.id, data.variantId)
+    switch (data.intent) {
+      case 'increment':
+        await incrementCartItem(cart.id, data.variantId)
+        break
+      case 'decrement':
+        await decrementCartItem(cart.id, data.variantId)
+        break
+      case 'clear':
+        await removeCartItem(cart.id, data.variantId)
+        break
     }
 
     return getCartStateById(cart.id, i18n.locale as LocaleKey)

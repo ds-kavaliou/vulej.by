@@ -1,7 +1,6 @@
-import type { LocaleKey } from '@/common/lib'
-
 import type { CartWithRelations } from './cart.types'
 import type { CartDto } from './cart.dto'
+import type { LocaleKey } from '@/common/constants'
 import { resolveImageUrl } from '@/common/lib'
 
 export function mapCartToDto(
@@ -36,6 +35,10 @@ export function mapCartToDto(
             alt: image.alt,
           }
         : null,
+      measurement: {
+        value: variant.size,
+        unit: variant.unit,
+      },
       price: variant.price,
       quantity: item.quantity,
       subtotal,

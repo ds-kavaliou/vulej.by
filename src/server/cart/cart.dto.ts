@@ -1,3 +1,5 @@
+import type { SupportedUnit } from '@/common/constants'
+
 export type CartItemDto = {
   id: string
   variantId: string
@@ -8,6 +10,10 @@ export type CartItemDto = {
     path: string
     alt: string | null
   } | null
+  measurement: {
+    value: number
+    unit: SupportedUnit
+  }
   price: number
   quantity: number
   subtotal: number

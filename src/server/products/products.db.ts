@@ -8,7 +8,7 @@ export type FindManyParams = {
   ids?: Array<string>
 }
 
-export const getProductsWithRealations = async ({
+export const getProductsWithRelations = async ({
   ids,
   limit,
   offset,

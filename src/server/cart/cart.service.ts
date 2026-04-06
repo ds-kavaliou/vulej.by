@@ -1,6 +1,6 @@
 import { mapCartToDto } from './cart.mapper'
 import { adjustCartItem, findCartByToken, getCartWithItems } from './cart.db'
-import type { LocaleKey } from '@/common/lib'
+import type { LocaleKey } from '@/common/constants'
 import { CartsTable, db } from '@/database'
 
 export const createCart = async () => {

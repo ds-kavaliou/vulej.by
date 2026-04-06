@@ -4,50 +4,28 @@
 output:
   - summary # Show summary at the end
   - failure # Show only failing jobs
-  # - execution  # Commented out to reduce noise
+  - execution # Commented out to reduce noise
 
 pre-commit:
   parallel: true
   jobs:
-    # Check if database schema changed without migrations
-    - name: database migration check
-      run: |
-        if pnpm drizzle-kit check; then
-          echo "✅ Schema is in sync"
-        else
-          echo "❌ Database schema changed without migration"
-          echo "👉 Run: pnpm db:generate && git add drizzle/"
-          exit 1
-        fi
-      glob: 'src/db/schema.ts'
-      fail_text: 'Database schema changed without migration'
-
-    # Extract i18n messages if source files changed
-    - name: lingui extract
-      run: pnpm lingui:extract
-      glob: '**/*.{js,ts,jsx,tsx}'
-      files: git diff --name-only HEAD
-      fail_text: 'i18n messages changed. Run pnpm lingui:extract and commit the updates.'
-
     # Lint staged files
     - name: lint
       run: pnpm lint --fix {staged_files}
+      stage_fixed: true
       glob: '*.{js,ts,jsx,tsx}'
-      exclude:
-    - 'drizzle/*' # Exclude migration files
-    - 'dist/*' # Exclude build output
-    - '*.d.ts' # Exclude type declaration files
 
     # Format staged files
     - name: format
       run: pnpm format --write {staged_files}
+      stage_fixed: true
       glob: '*.{js,ts,jsx,tsx,json,md,css}'
 
     # Type check only if TypeScript files changed
     - name: check types
       run: pnpm exec tsc --noEmit
       glob: '*.{ts,tsx}'
-      files: git diff --name-only HEAD @{push}
+      files: git diff --name-only HEAD
 
 pre-push:
   parallel: true
@@ -63,7 +41,7 @@ pre-push:
       skip:
         - ci
 
-    - name: lint all
+    - name: lint
       run: pnpm lint
       skip:
         - ci

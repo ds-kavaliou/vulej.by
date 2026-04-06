@@ -14,7 +14,10 @@ import { Route as MainIndexRouteImport } from './routes/_main.index'
 import { Route as ApiProductsRouteImport } from './routes/api/products'
 import { Route as MainCheckoutRouteImport } from './routes/_main.checkout'
 import { Route as MainCatalogRouteImport } from './routes/_main.catalog'
+import { Route as MainCheckoutIndexRouteImport } from './routes/_main.checkout.index'
 import { Route as ApiTelegramWebhookRouteImport } from './routes/api/telegram/webhook'
+import { Route as MainCheckoutSuccessRouteImport } from './routes/_main.checkout.success'
+import { Route as MainCheckoutFailureRouteImport } from './routes/_main.checkout.failure'
 
 const MainRoute = MainRouteImport.update({
   id: '/_main',
@@ -40,34 +43,57 @@ const MainCatalogRoute = MainCatalogRouteImport.update({
   path: '/catalog',
   getParentRoute: () => MainRoute,
 } as any)
+const MainCheckoutIndexRoute = MainCheckoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainCheckoutRoute,
+} as any)
 const ApiTelegramWebhookRoute = ApiTelegramWebhookRouteImport.update({
   id: '/api/telegram/webhook',
   path: '/api/telegram/webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MainCheckoutSuccessRoute = MainCheckoutSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => MainCheckoutRoute,
+} as any)
+const MainCheckoutFailureRoute = MainCheckoutFailureRouteImport.update({
+  id: '/failure',
+  path: '/failure',
+  getParentRoute: () => MainCheckoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
   '/catalog': typeof MainCatalogRoute
-  '/checkout': typeof MainCheckoutRoute
+  '/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
+  '/checkout/failure': typeof MainCheckoutFailureRoute
+  '/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/checkout/': typeof MainCheckoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/catalog': typeof MainCatalogRoute
-  '/checkout': typeof MainCheckoutRoute
   '/api/products': typeof ApiProductsRoute
   '/': typeof MainIndexRoute
+  '/checkout/failure': typeof MainCheckoutFailureRoute
+  '/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/checkout': typeof MainCheckoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_main': typeof MainRouteWithChildren
   '/_main/catalog': typeof MainCatalogRoute
-  '/_main/checkout': typeof MainCheckoutRoute
+  '/_main/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
   '/_main/': typeof MainIndexRoute
+  '/_main/checkout/failure': typeof MainCheckoutFailureRoute
+  '/_main/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/_main/checkout/': typeof MainCheckoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -76,9 +102,19 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/checkout'
     | '/api/products'
+    | '/checkout/failure'
+    | '/checkout/success'
     | '/api/telegram/webhook'
+    | '/checkout/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/catalog' | '/checkout' | '/api/products' | '/' | '/api/telegram/webhook'
+  to:
+    | '/catalog'
+    | '/api/products'
+    | '/'
+    | '/checkout/failure'
+    | '/checkout/success'
+    | '/api/telegram/webhook'
+    | '/checkout'
   id:
     | '__root__'
     | '/_main'
@@ -86,7 +122,10 @@ export interface FileRouteTypes {
     | '/_main/checkout'
     | '/api/products'
     | '/_main/'
+    | '/_main/checkout/failure'
+    | '/_main/checkout/success'
     | '/api/telegram/webhook'
+    | '/_main/checkout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainCatalogRouteImport
       parentRoute: typeof MainRoute
     }
+    '/_main/checkout/': {
+      id: '/_main/checkout/'
+      path: '/'
+      fullPath: '/checkout/'
+      preLoaderRoute: typeof MainCheckoutIndexRouteImport
+      parentRoute: typeof MainCheckoutRoute
+    }
     '/api/telegram/webhook': {
       id: '/api/telegram/webhook'
       path: '/api/telegram/webhook'
@@ -139,18 +185,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTelegramWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_main/checkout/success': {
+      id: '/_main/checkout/success'
+      path: '/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof MainCheckoutSuccessRouteImport
+      parentRoute: typeof MainCheckoutRoute
+    }
+    '/_main/checkout/failure': {
+      id: '/_main/checkout/failure'
+      path: '/failure'
+      fullPath: '/checkout/failure'
+      preLoaderRoute: typeof MainCheckoutFailureRouteImport
+      parentRoute: typeof MainCheckoutRoute
+    }
   }
 }
 
+interface MainCheckoutRouteChildren {
+  MainCheckoutFailureRoute: typeof MainCheckoutFailureRoute
+  MainCheckoutSuccessRoute: typeof MainCheckoutSuccessRoute
+  MainCheckoutIndexRoute: typeof MainCheckoutIndexRoute
+}
+
+const MainCheckoutRouteChildren: MainCheckoutRouteChildren = {
+  MainCheckoutFailureRoute: MainCheckoutFailureRoute,
+  MainCheckoutSuccessRoute: MainCheckoutSuccessRoute,
+  MainCheckoutIndexRoute: MainCheckoutIndexRoute,
+}
+
+const MainCheckoutRouteWithChildren = MainCheckoutRoute._addFileChildren(
+  MainCheckoutRouteChildren,
+)
+
 interface MainRouteChildren {
   MainCatalogRoute: typeof MainCatalogRoute
-  MainCheckoutRoute: typeof MainCheckoutRoute
+  MainCheckoutRoute: typeof MainCheckoutRouteWithChildren
   MainIndexRoute: typeof MainIndexRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
   MainCatalogRoute: MainCatalogRoute,
-  MainCheckoutRoute: MainCheckoutRoute,
+  MainCheckoutRoute: MainCheckoutRouteWithChildren,
   MainIndexRoute: MainIndexRoute,
 }
 

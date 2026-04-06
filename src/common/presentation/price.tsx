@@ -1,5 +1,5 @@
-import { LocaleKey } from '../constants/languages'
 import { currencies } from '../utils/money'
+import type { LocaleKey } from '../constants/languages'
 
 type PriceProps = {
   value: number

@@ -1,4 +1,4 @@
-import { LocaleKey } from '../constants/languages'
+import type { LocaleKey } from '../constants/languages'
 
 export const currencies: Record<LocaleKey, string> = {
   be: 'р.',

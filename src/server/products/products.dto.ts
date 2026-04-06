@@ -1,4 +1,4 @@
-import { SupportedUnit } from '@/common/constants'
+import type { SupportedUnit } from '@/common/constants'
 
 export type ProductDto = {
   id: string

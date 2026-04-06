@@ -1,5 +1,6 @@
-import { LocaleKey } from '../constants/languages'
-import { SupportedUnit, units } from '../constants/units'
+import { units } from '../constants/units'
+import type { LocaleKey } from '../constants/languages'
+import type { SupportedUnit } from '../constants/units'
 
 type MeasurementProps = {
   value: number

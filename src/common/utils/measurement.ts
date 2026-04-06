@@ -1,5 +1,5 @@
-import { LocaleKey } from '../constants/languages'
-import { SupportedUnit } from '../constants/units'
+import type { LocaleKey } from '../constants/languages'
+import type { SupportedUnit } from '../constants/units'
 
 const units: Record<SupportedUnit, Record<LocaleKey, string>> = {
   g: {

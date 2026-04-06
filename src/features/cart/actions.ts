@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query'
 
 import { CartKeys } from './consts'
-import type { LocaleKey } from '@/common/lib'
+import type { LocaleKey } from '@/common/constants'
 import type { CartItemDto } from '@/server/cart'
 import {
   decrementCartItem,

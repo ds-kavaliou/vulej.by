@@ -1,5 +1,5 @@
 import { i18n } from '@lingui/core'
-import { LocaleKey } from '../constants/languages'
+import type { LocaleKey } from '../constants/languages'
 
 /**
  * We do a dynamic import of just the catalog that we need

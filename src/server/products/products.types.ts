@@ -1,5 +1,5 @@
-import type { getProductsWithRealations } from './products.db'
+import type { getProductsWithRelations } from './products.db'
 
 export type ProductsWithRelations = NonNullable<
-  Awaited<ReturnType<typeof getProductsWithRealations>>
+  Awaited<ReturnType<typeof getProductsWithRelations>>
 >

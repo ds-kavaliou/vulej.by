@@ -1,10 +1,9 @@
+import { useUpdateCartMutation } from '../actions'
 import type { CartItemDto } from '@/server/cart'
 
 import { Icon } from '@/common/components'
 import { Measurement, Price } from '@/common/presentation'
 import { useLocale } from '@/common/hooks'
-
-import { useUpdateCartMutation } from '../actions'
 
 type CartItemProps = {
   item: CartItemDto

@@ -8,6 +8,8 @@ export default [
     ignores: [
       '.output/**',
       '.vinxi/**',
+      '.history/**',
+      '.tanstack/**',
       'dist/**',
       'src/locales/**',
       'lingui.config.js',

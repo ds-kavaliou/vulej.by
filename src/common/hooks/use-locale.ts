@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro'
-import { LocaleKey } from '../constants'
+import type { LocaleKey } from '../constants'
 
 export function useLocale() {
   const { i18n } = useLingui()

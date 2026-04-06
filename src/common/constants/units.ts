@@ -1,4 +1,4 @@
-import { LocaleKey } from './languages'
+import type { LocaleKey } from './languages'
 
 export type SupportedUnit = (typeof supportedUnits)[number]
 

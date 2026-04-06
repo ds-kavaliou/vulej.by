@@ -1,3 +1,5 @@
+import { SupportedUnit } from '@/common/constants'
+
 export type ProductDto = {
   id: string
   slug: string
@@ -20,6 +22,6 @@ export type ProductDto = {
 export type ProductVariantDto = {
   id: string
   price: number
-  unit: string
+  unit: SupportedUnit
   size: number
 }

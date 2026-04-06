@@ -17,8 +17,9 @@ import {
 } from '@/common/components'
 
 import { cn } from '@/common/utils'
-import { useMediaQuery } from '@/common/hooks'
+import { useLocale, useMediaQuery } from '@/common/hooks'
 import { CartItem, useCartState } from '@/features/cart'
+import { Price } from '@/common/presentation'
 
 export const Route = createFileRoute('/_main')({
   component: RouteComponent,
@@ -111,8 +112,10 @@ export function MenuButton({
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const cart = useCartState()
+  const locale = useLocale()
 
-  const total = cart.data.totalQuantity
+  const quantity = cart.data.totalQuantity
+  const subtotal = cart.data.subtotal
   const items = cart.data.items
 
   return (
@@ -130,29 +133,48 @@ export function MenuButton({
           <Badge
             variant="destructive"
             className="absolute -right-2 -top-2 size-5.5 rounded-full"
-            hidden={total <= 0}
+            hidden={quantity <= 0}
           >
-            {total}
+            {quantity}
           </Badge>
         </Button>
       </DrawerTrigger>
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <DrawerDescription>This action cannot be undone.</DrawerDescription>
+          <DrawerTitle className="text-xl flex items-baseline gap-2">
+            <Trans>Shopping Bag</Trans>
+            <span>({quantity})</span>
+          </DrawerTitle>
+          <DrawerDescription />
         </DrawerHeader>
 
-        <DrawerSection>
+        <DrawerSection className="divide-y">
           {items.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}
         </DrawerSection>
 
         <DrawerFooter>
-          <Button>Submit</Button>
+          <h1 className="text-xl font-bold">
+            <Trans>In Cart</Trans>
+          </h1>
+          <div className="flex justify-between">
+            <h3>
+              <Trans>Subtotal</Trans>
+            </h3>
+            <Price value={subtotal} locale={locale} />
+          </div>
+
           <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button
+              nativeButton={false}
+              render={
+                <Link to="/checkout">
+                  <Trans>Checkout</Trans>
+                </Link>
+              }
+            />
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>

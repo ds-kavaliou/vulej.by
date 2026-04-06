@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MainRouteImport } from './routes/_main'
 import { Route as MainIndexRouteImport } from './routes/_main.index'
 import { Route as ApiProductsRouteImport } from './routes/api/products'
+import { Route as MainCheckoutRouteImport } from './routes/_main.checkout'
+import { Route as MainCatalogRouteImport } from './routes/_main.catalog'
 import { Route as ApiTelegramWebhookRouteImport } from './routes/api/telegram/webhook'
 
 const MainRoute = MainRouteImport.update({
@@ -28,6 +30,16 @@ const ApiProductsRoute = ApiProductsRouteImport.update({
   path: '/api/products',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MainCheckoutRoute = MainCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainCatalogRoute = MainCatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
+  getParentRoute: () => MainRoute,
+} as any)
 const ApiTelegramWebhookRoute = ApiTelegramWebhookRouteImport.update({
   id: '/api/telegram/webhook',
   path: '/api/telegram/webhook',
@@ -36,10 +48,14 @@ const ApiTelegramWebhookRoute = ApiTelegramWebhookRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
+  '/catalog': typeof MainCatalogRoute
+  '/checkout': typeof MainCheckoutRoute
   '/api/products': typeof ApiProductsRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
 }
 export interface FileRoutesByTo {
+  '/catalog': typeof MainCatalogRoute
+  '/checkout': typeof MainCheckoutRoute
   '/api/products': typeof ApiProductsRoute
   '/': typeof MainIndexRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
@@ -47,18 +63,27 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_main': typeof MainRouteWithChildren
+  '/_main/catalog': typeof MainCatalogRoute
+  '/_main/checkout': typeof MainCheckoutRoute
   '/api/products': typeof ApiProductsRoute
   '/_main/': typeof MainIndexRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/products' | '/api/telegram/webhook'
+  fullPaths:
+    | '/'
+    | '/catalog'
+    | '/checkout'
+    | '/api/products'
+    | '/api/telegram/webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/api/products' | '/' | '/api/telegram/webhook'
+  to: '/catalog' | '/checkout' | '/api/products' | '/' | '/api/telegram/webhook'
   id:
     | '__root__'
     | '/_main'
+    | '/_main/catalog'
+    | '/_main/checkout'
     | '/api/products'
     | '/_main/'
     | '/api/telegram/webhook'
@@ -93,6 +118,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProductsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_main/checkout': {
+      id: '/_main/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof MainCheckoutRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/catalog': {
+      id: '/_main/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof MainCatalogRouteImport
+      parentRoute: typeof MainRoute
+    }
     '/api/telegram/webhook': {
       id: '/api/telegram/webhook'
       path: '/api/telegram/webhook'
@@ -104,10 +143,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface MainRouteChildren {
+  MainCatalogRoute: typeof MainCatalogRoute
+  MainCheckoutRoute: typeof MainCheckoutRoute
   MainIndexRoute: typeof MainIndexRoute
 }
 
 const MainRouteChildren: MainRouteChildren = {
+  MainCatalogRoute: MainCatalogRoute,
+  MainCheckoutRoute: MainCheckoutRoute,
   MainIndexRoute: MainIndexRoute,
 }
 

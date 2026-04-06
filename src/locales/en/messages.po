@@ -29,6 +29,18 @@ msgstr "Adding..."
 msgid "Designed and developed by "
 msgstr "Designed and developed by "
 
+#: src/routes/_main.index.tsx:28
+msgid "Fresh and sweet."
+msgstr "Fresh and sweet."
+
+#: src/routes/_main.index.tsx:34
+msgid "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
+msgstr "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
+
+#: src/routes/_main.index.tsx:42
+msgid "learn more"
+msgstr "learn more"
+
 #: src/routes/_main.tsx:99
 msgid "Natural honey in Gomel"
 msgstr "Natural honey in Gomel"

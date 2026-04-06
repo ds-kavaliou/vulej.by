@@ -29,6 +29,18 @@ msgstr ""
 msgid "Designed and developed by "
 msgstr "Распрацавана і створана "
 
+#: src/routes/_main.index.tsx:28
+msgid "Fresh and sweet."
+msgstr ""
+
+#: src/routes/_main.index.tsx:34
+msgid "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
+msgstr ""
+
+#: src/routes/_main.index.tsx:42
+msgid "learn more"
+msgstr ""
+
 #: src/routes/_main.tsx:99
 msgid "Natural honey in Gomel"
 msgstr ""

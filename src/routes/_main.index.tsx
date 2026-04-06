@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/react/macro'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 
 import {
   getRecommendedProductsQueryOptions,
@@ -19,37 +19,32 @@ export const Route = createFileRoute('/_main/')({
 
 function RouteComponent() {
   const products = useRecommendedProducts()
-  const navigate = useNavigate()
 
   return (
     <div className="container">
-      <section className="flex h-[calc(100vh-var(--header-height))] flex-col justify-center hero-background mt-20">
-        <div className="container -translate-y-10 xl:grid xl:grid-cols-2 xl:items-center gap-8">
-          <div className="flex flex-col items-center text-center xl:items-start xl:text-start">
-            <h4 className="text-sm font-semibold uppercase tracking-wide sm:text-base xl:text-lg">
-              <Trans>Свежий, сладкий.</Trans>
-            </h4>
-            <h1 className="mb-4 font-logo text-5xl font-bold uppercase tracking-widest  sm:text-6xl md:text-7xl lg:-ml-1 xl:text-8xl">
-              vulej.by
-            </h1>
-            <p className="mb-4 max-w-prose md:text-lg">
-              <Trans>
-                &#x0423; нас Вы можете приобрести <strong>мёд</strong>{' '}
-                превосходного качества, &#1072; так же другую продукцию
-                пчеловодства произведенную на собственной пасеке.
-              </Trans>
-            </p>
-            <Button
-              variant={'outline'}
-              size={'lg'}
-              onClick={() => navigate({ to: '/api/products' })}
-            >
-              <Trans>узнать больше</Trans>
+      <section className="container -translate-y-10 xl:grid xl:grid-cols-2 xl:items-center gap-8 mt-20">
+        <div className="flex flex-col items-center text-center xl:items-start xl:text-start">
+          <h4 className="text-sm font-semibold uppercase tracking-wide sm:text-base xl:text-lg">
+            <Trans>Fresh and sweet.</Trans>
+          </h4>
+          <h1 className="mb-4 font-logo text-5xl font-bold uppercase tracking-widest  sm:text-6xl md:text-7xl lg:-ml-1 xl:text-8xl">
+            vulej.by
+          </h1>
+          <p className="mb-4 max-w-prose md:text-lg">
+            <Trans>
+              Here you can purchase <strong>honey</strong> of exceptional
+              quality, as well as other beekeeping products made at our own
+              apiary.
+            </Trans>
+          </p>
+          <Link to="/api/products">
+            <Button variant={'outline'} size={'lg'}>
+              <Trans>learn more</Trans>
             </Button>
-          </div>
-          <div className="hidden xl:block">
-            <img className="scale-125" src="/images/hero-1.avif" alt="honey" />
-          </div>
+          </Link>
+        </div>
+        <div className="hidden xl:block">
+          <img className="scale-125" src="/images/hero-1.avif" alt="honey" />
         </div>
       </section>
 

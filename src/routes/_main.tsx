@@ -30,7 +30,7 @@ function RouteComponent() {
     <div className="flex flex-col min-h-svh">
       <header className="bg-white shadow sticky top-0 z-50">
         <div className="container-wrapper">
-          <div className="container grid grid-cols-[auto_1fr_auto] grid-rows-[80px] items-center">
+          <div className="container grid grid-cols-[auto_1fr_auto] grid-rows-(--header-height) items-center">
             <Logo />
             <Banner className="lg:order-last lg:ml-4 lg:border-l lg:border-gray-300 lg:pl-4" />
             <MenuButton className="justify-self-end" />

@@ -19,11 +19,19 @@ import {
   FieldSet,
   Input,
 } from '@/common/components'
+import { sendMessageToTelegramChat } from '@/server/telegram'
 
-const handleFormSubmit = createServerFn({ method: 'POST' }).handler(() => {
-  if (Math.random() > 0.5) throw redirect({ to: '/checkout/failure' })
-  throw redirect({ to: '/checkout/success' })
-})
+const handleFormSubmit = createServerFn({ method: 'POST' }).handler(
+  async (ctx) => {
+    const result = await sendMessageToTelegramChat(JSON.stringify(ctx.data))
+
+    if (result.message_id) {
+      throw redirect({ to: '/checkout/success' })
+    }
+
+    throw redirect({ to: '/checkout/failure' })
+  },
+)
 
 const getServerFormData = createServerFn({ method: 'GET' }).handler(async () =>
   getFormData(),

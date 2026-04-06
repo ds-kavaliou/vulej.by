@@ -1,1 +1,1 @@
-export * from './telegram.bot'
+export * from './telegram.service'

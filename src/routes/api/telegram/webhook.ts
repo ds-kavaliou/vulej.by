@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { bot } from '@/server/telegram'
+import { bot } from '@/common/lib'
 
 export const Route = createFileRoute('/api/telegram/webhook')({
   server: {

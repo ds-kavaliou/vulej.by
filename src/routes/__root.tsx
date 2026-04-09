@@ -11,7 +11,14 @@ import { i18n, initI18n } from '@/common/lib/i18n'
 
 import { getCartStateOptions } from '@/features/cart'
 
-import styles from '@/styles.css?url'
+import {
+  faviconLinks,
+  fontLinks,
+  generateMetaTags,
+  generateOrganizationStructuredData,
+  generateStructuredData,
+  LANG,
+} from '@/common/lib/seo'
 
 const initI18nFn = createServerFn().handler(() =>
   initI18n(getLocaleFromRequest()),
@@ -24,28 +31,32 @@ export const Route = createRootRouteWithContext<{
     await initI18nFn()
   },
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(getCartStateOptions())
+    const cartData = await context.queryClient.ensureQueryData(
+      getCartStateOptions(),
+    )
+    return { cartData }
   },
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Vulej.by',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: styles,
-      },
-    ],
-  }),
+  head: () => {
+    const locale = (i18n.locale || 'en') as LANG
+
+    const metaTags = generateMetaTags(locale)
+    const structuredData = generateStructuredData(locale)
+
+    return {
+      meta: metaTags,
+      links: [...fontLinks, ...faviconLinks],
+      scripts: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify(structuredData),
+        },
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify(generateOrganizationStructuredData()),
+        },
+      ],
+    }
+  },
   shellComponent: RootDocument,
   notFoundComponent: () => {
     return <p>This page doesn't exist!</p>

@@ -22,7 +22,16 @@ const config = defineConfig({
       projects: ['./tsconfig.json'],
     }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
+      sitemap: {
+        enabled: true,
+        host: 'https://vulej-by.netlify.app/',
+      },
+    }),
     viteReact({
       babel: {
         plugins: ['@lingui/babel-plugin-lingui-macro'],

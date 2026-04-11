@@ -1,14 +1,9 @@
 import { Trans } from '@lingui/react/macro'
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import {
-  getFormData,
-  mergeForm,
-  useForm,
-  useTransform,
-} from '@tanstack/react-form-start'
-
+import { createServerFn, useServerFn } from '@tanstack/react-start'
+import { useForm } from '@tanstack/react-form-start'
 import { t } from '@lingui/core/macro'
+
 import {
   Button,
   Field,
@@ -19,70 +14,59 @@ import {
   FieldLegend,
   FieldSet,
   Input,
+  Textarea,
 } from '@/common/components'
 import { sendMessageToTelegramChat } from '@/server/telegram'
 import { CheckoutFormSchema } from '@/features/checkout'
+import { formatBYPhoneNumber } from '@/common/utils'
 
-const handleFormSubmit = createServerFn({ method: 'POST' })
+const handleCheckoutFormSubmit = createServerFn({ method: 'POST' })
   .inputValidator(async (data: unknown) => {
-    if (!(data instanceof FormData)) {
-      throw new Response('Invalid form submission', { status: 400 })
-    }
-
-    const parsed = await CheckoutFormSchema.safeParseAsync(
-      Object.fromEntries(data),
-    )
+    const parsed = await CheckoutFormSchema.safeParseAsync(data)
 
     if (!parsed.success) {
-      throw new Response('Invalid form submission', { status: 400 })
+      throw new Response(JSON.stringify(parsed.error.flatten()), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
     }
 
     return parsed.data
   })
   .handler(async (ctx) => {
-    console.log('--->', ctx.data)
-
     const result = await sendMessageToTelegramChat(JSON.stringify(ctx.data))
 
-    if (result.message_id) {
+    if (result.success) {
       throw redirect({ to: '/checkout/success' })
     }
 
     throw redirect({ to: '/checkout/failure' })
   })
 
-const getServerFormData = createServerFn({ method: 'GET' }).handler(async () =>
-  getFormData(),
-)
-
 export const Route = createFileRoute('/_main/checkout/')({
   component: RouteComponent,
-  loader: async () => ({
-    state: await getServerFormData(),
-  }),
 })
 
 function RouteComponent() {
-  const { state } = Route.useLoaderData()
+  const submit = useServerFn(handleCheckoutFormSubmit)
 
   const form = useForm({
     defaultValues: {
       name: '',
       phone: '',
       address: '',
+      note: '',
     },
     validators: {
-      onBlur: CheckoutFormSchema,
+      onSubmit: CheckoutFormSchema,
     },
-    transform: useTransform((base) => mergeForm(base, state), [state]),
+    onSubmit: async (f) => await submit({ data: f.value }),
   })
 
   return (
-    <form
-      action={handleFormSubmit.url}
-      encType="multipart/form-data"
-      method="post"
-    >
+    <form onSubmit={(e) => (e.preventDefault(), void form.handleSubmit())}>
       <FieldGroup>
         <FieldSet>
           <FieldLegend>
@@ -100,7 +84,7 @@ function RouteComponent() {
                   field.state.meta.isTouched && !field.state.meta.isValid
                 return (
                   <Field>
-                    <FieldLabel htmlFor={field.name}>
+                    <FieldLabel htmlFor={field.name} required>
                       <Trans>Name</Trans>
                     </FieldLabel>
                     <Input
@@ -129,18 +113,21 @@ function RouteComponent() {
 
                 return (
                   <Field>
-                    <FieldLabel htmlFor={field.name}>
+                    <FieldLabel htmlFor={field.name} required>
                       <Trans>Phone Number</Trans>
                     </FieldLabel>
                     <Input
+                      type="tel"
+                      autoComplete="tel"
                       id={field.name}
                       name={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
+                      onChange={(e) =>
+                        field.handleChange(formatBYPhoneNumber(e.target.value))
+                      }
                       aria-invalid={isInvalid}
                       placeholder={t`Phone Number`}
-                      autoComplete="off"
                     />
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
@@ -158,10 +145,11 @@ function RouteComponent() {
 
                 return (
                   <Field>
-                    <FieldLabel htmlFor={field.name}>
+                    <FieldLabel htmlFor={field.name} required>
                       <Trans>Address</Trans>
                     </FieldLabel>
                     <Input
+                      autoComplete="street-address"
                       id={field.name}
                       name={field.name}
                       value={field.state.value}
@@ -169,7 +157,6 @@ function RouteComponent() {
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={isInvalid}
                       placeholder={t`Address`}
-                      autoComplete="off"
                     />
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
@@ -178,13 +165,39 @@ function RouteComponent() {
                 )
               }}
             />
+
+            <form.Field
+              name="note"
+              children={(field) => {
+                return (
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>
+                      <Trans>Note</Trans>
+                    </FieldLabel>
+                    <Textarea
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder={t`Note`}
+                    />
+                  </Field>
+                )
+              }}
+            />
           </FieldGroup>
         </FieldSet>
 
         <Field orientation="horizontal">
-          <form.Subscribe selector={(f) => [f.canSubmit, f.isSubmitting]}>
-            {([canSubmit, isSubmitting]) => (
-              <Button type="submit" disabled={!canSubmit || isSubmitting}>
+          <form.Subscribe
+            selector={(f) => [f.canSubmit, f.isSubmitting, f.isPristine]}
+          >
+            {([canSubmit, isSubmitting, isPristine]) => (
+              <Button
+                type="submit"
+                disabled={!canSubmit || isSubmitting || isPristine}
+              >
                 {isSubmitting ? (
                   <Trans>Processing...</Trans>
                 ) : (

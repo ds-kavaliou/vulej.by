@@ -21,7 +21,7 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   beforeLoad: async () => {
-    await initI18nFn()
+    return { locale: await initI18nFn() }
   },
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData(getCartStateOptions())

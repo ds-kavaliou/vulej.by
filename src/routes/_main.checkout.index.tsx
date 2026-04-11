@@ -8,6 +8,7 @@ import {
   useTransform,
 } from '@tanstack/react-form-start'
 
+import { t } from '@lingui/core/macro'
 import {
   Button,
   Field,
@@ -20,9 +21,27 @@ import {
   Input,
 } from '@/common/components'
 import { sendMessageToTelegramChat } from '@/server/telegram'
+import { CheckoutFormSchema } from '@/features/checkout'
 
-const handleFormSubmit = createServerFn({ method: 'POST' }).handler(
-  async (ctx) => {
+const handleFormSubmit = createServerFn({ method: 'POST' })
+  .inputValidator(async (data: unknown) => {
+    if (!(data instanceof FormData)) {
+      throw new Response('Invalid form submission', { status: 400 })
+    }
+
+    const parsed = await CheckoutFormSchema.safeParseAsync(
+      Object.fromEntries(data),
+    )
+
+    if (!parsed.success) {
+      throw new Response('Invalid form submission', { status: 400 })
+    }
+
+    return parsed.data
+  })
+  .handler(async (ctx) => {
+    console.log('--->', ctx.data)
+
     const result = await sendMessageToTelegramChat(JSON.stringify(ctx.data))
 
     if (result.message_id) {
@@ -30,8 +49,7 @@ const handleFormSubmit = createServerFn({ method: 'POST' }).handler(
     }
 
     throw redirect({ to: '/checkout/failure' })
-  },
-)
+  })
 
 const getServerFormData = createServerFn({ method: 'GET' }).handler(async () =>
   getFormData(),
@@ -51,6 +69,10 @@ function RouteComponent() {
     defaultValues: {
       name: '',
       phone: '',
+      address: '',
+    },
+    validators: {
+      onBlur: CheckoutFormSchema,
     },
     transform: useTransform((base) => mergeForm(base, state), [state]),
   })
@@ -58,8 +80,8 @@ function RouteComponent() {
   return (
     <form
       action={handleFormSubmit.url}
+      encType="multipart/form-data"
       method="post"
-      encType={'multipart/form-data'}
     >
       <FieldGroup>
         <FieldSet>
@@ -88,7 +110,7 @@ function RouteComponent() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={isInvalid}
-                      placeholder="Name"
+                      placeholder={t`Name`}
                       autoComplete="off"
                     />
                     {isInvalid && (
@@ -117,7 +139,36 @@ function RouteComponent() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={isInvalid}
-                      placeholder="Phone Number"
+                      placeholder={t`Phone Number`}
+                      autoComplete="off"
+                    />
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
+                  </Field>
+                )
+              }}
+            />
+
+            <form.Field
+              name="address"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+
+                return (
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>
+                      <Trans>Address</Trans>
+                    </FieldLabel>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      aria-invalid={isInvalid}
+                      placeholder={t`Address`}
                       autoComplete="off"
                     />
                     {isInvalid && (

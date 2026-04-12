@@ -13,20 +13,8 @@ export const Route = createFileRoute('/_admin')({
     }
 
     // TODO: check if session is valid, if not - redirect to login page
+    // TODO: check if user has admin role, if not - redirect to home page
+    // TODO: provide session to the route context
   },
-  component: RouteComponent,
+  component: () => <Outlet />,
 })
-
-function RouteComponent() {
-  return (
-    <div className="flex flex-col min-h-svh">
-      <header className="bg-white shadow sticky top-0 z-50">
-        <div className="container-wrapper">header and menu</div>
-      </header>
-
-      <main className="flex-1">
-        <Outlet />
-      </main>
-    </div>
-  )
-}

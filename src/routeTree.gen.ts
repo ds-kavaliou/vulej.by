@@ -23,6 +23,7 @@ import { Route as ApiTelegramWebhookRouteImport } from './routes/api/telegram/we
 import { Route as MainCheckoutSuccessRouteImport } from './routes/_main.checkout.success'
 import { Route as MainCheckoutFailureRouteImport } from './routes/_main.checkout.failure'
 import { Route as AuthAdminLoginRouteImport } from './routes/_auth.admin.login'
+import { Route as AdminAdminProductsRouteImport } from './routes/_admin.admin.products'
 
 const MainRoute = MainRouteImport.update({
   id: '/_main',
@@ -91,6 +92,11 @@ const AuthAdminLoginRoute = AuthAdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => AuthRoute,
 } as any)
+const AdminAdminProductsRoute = AdminAdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/catalog': typeof MainCatalogRoute
   '/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
+  '/admin/products': typeof AdminAdminProductsRoute
   '/admin/login': typeof AuthAdminLoginRoute
   '/checkout/failure': typeof MainCheckoutFailureRoute
   '/checkout/success': typeof MainCheckoutSuccessRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/': typeof MainIndexRoute
   '/catalog': typeof MainCatalogRoute
   '/api/products': typeof ApiProductsRoute
+  '/admin/products': typeof AdminAdminProductsRoute
   '/admin/login': typeof AuthAdminLoginRoute
   '/checkout/failure': typeof MainCheckoutFailureRoute
   '/checkout/success': typeof MainCheckoutSuccessRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/_main/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
   '/_main/': typeof MainIndexRoute
+  '/_admin/admin/products': typeof AdminAdminProductsRoute
   '/_auth/admin/login': typeof AuthAdminLoginRoute
   '/_main/checkout/failure': typeof MainCheckoutFailureRoute
   '/_main/checkout/success': typeof MainCheckoutSuccessRoute
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/catalog'
     | '/checkout'
     | '/api/products'
+    | '/admin/products'
     | '/admin/login'
     | '/checkout/failure'
     | '/checkout/success'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/'
     | '/catalog'
     | '/api/products'
+    | '/admin/products'
     | '/admin/login'
     | '/checkout/failure'
     | '/checkout/success'
@@ -168,6 +179,7 @@ export interface FileRouteTypes {
     | '/_main/checkout'
     | '/api/products'
     | '/_main/'
+    | '/_admin/admin/products'
     | '/_auth/admin/login'
     | '/_main/checkout/failure'
     | '/_main/checkout/success'
@@ -284,14 +296,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminLoginRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_admin/admin/products': {
+      id: '/_admin/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminAdminProductsRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
   }
 }
 
 interface AdminAdminRouteChildren {
+  AdminAdminProductsRoute: typeof AdminAdminProductsRoute
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
 
 const AdminAdminRouteChildren: AdminAdminRouteChildren = {
+  AdminAdminProductsRoute: AdminAdminProductsRoute,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
 }
 

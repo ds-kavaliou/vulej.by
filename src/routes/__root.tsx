@@ -5,20 +5,12 @@ import {
 } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import type { QueryClient } from '@tanstack/react-query'
-
+import { defaultLocale } from '@/common/constants'
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
-import { i18n, initI18n } from '@/common/lib/i18n'
-
+import { getActiveLocale, i18n, initI18n } from '@/common/lib/i18n'
 import { getCartStateOptions } from '@/features/cart'
-
-import {
-  faviconLinks,
-  fontLinks,
-  generateMetaTags,
-  generateOrganizationStructuredData,
-  generateStructuredData,
-  LANG,
-} from '@/common/lib/seo'
+import { generateMetaTags } from '@/common/lib/seo'
+import { faviconLinks, fontLinks } from '@/common/lib'
 
 const initI18nFn = createServerFn().handler(() =>
   initI18n(getLocaleFromRequest()),
@@ -31,30 +23,18 @@ export const Route = createRootRouteWithContext<{
     await initI18nFn()
   },
   loader: async ({ context }) => {
-    const cartData = await context.queryClient.ensureQueryData(
-      getCartStateOptions(),
-    )
-    return { cartData }
+    const locale = getActiveLocale()
+    await context.queryClient.ensureQueryData(getCartStateOptions())
+    return { locale }
   },
-  head: () => {
-    const locale = (i18n.locale || 'en') as LANG
+  head: ({ loaderData }) => {
+    const locale = loaderData?.locale || defaultLocale
 
     const metaTags = generateMetaTags(locale)
-    const structuredData = generateStructuredData(locale)
 
     return {
       meta: metaTags,
       links: [...fontLinks, ...faviconLinks],
-      scripts: [
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify(structuredData),
-        },
-        {
-          type: 'application/ld+json',
-          children: JSON.stringify(generateOrganizationStructuredData()),
-        },
-      ],
     }
   },
   shellComponent: RootDocument,

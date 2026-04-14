@@ -1,6 +1,5 @@
-import styles from '@/styles.css?url'
-
-export type LANG = 'ru' | 'be' | 'en'
+import type { LocaleKey } from '@/common/constants'
+import { defaultLocale } from '@/common/constants'
 
 export interface SEOConfig {
   title: string
@@ -19,52 +18,7 @@ type MetaTag =
 
 const APP_URL = import.meta.env.VITE_APP_URL || 'https://vulej-by.vercel.app/'
 
-export const fontLinks = [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Lato:wght@700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap',
-  },
-  { rel: 'stylesheet', href: styles },
-]
-
-export const faviconLinks = [
-  {
-    rel: 'apple-touch-icon',
-    sizes: '180x180',
-    href: '/favicon/apple-touch-icon.png',
-  },
-  {
-    rel: 'icon',
-    type: 'image/png',
-    sizes: '32x32',
-    href: '/favicon/favicon-32x32.png',
-  },
-  {
-    rel: 'icon',
-    type: 'image/png',
-    sizes: '16x16',
-    href: '/favicon/favicon-16x16.png',
-  },
-  {
-    rel: 'icon',
-    type: 'image/x-icon',
-    href: '/favicon/favicon.ico',
-  },
-  { rel: 'manifest', href: '/favicon/site.webmanifest' },
-  {
-    rel: 'mask-icon',
-    href: '/favicon/safari-pinned-tab.svg',
-    color: '#5bbad5',
-  },
-]
-
-export const seoI18n: Record<LANG, SEOConfig> = {
+export const seoI18n: Record<LocaleKey, SEOConfig> = {
   ru: {
     title: 'Свежий, домашний мёд. | vulej.by',
     description:
@@ -91,8 +45,10 @@ export const seoI18n: Record<LANG, SEOConfig> = {
   },
 }
 
-export function generateMetaTags(locale: LANG = 'en'): MetaTag[] {
-  const seo = seoI18n[locale as LANG] || seoI18n.en
+export function generateMetaTags(
+  locale: LocaleKey = defaultLocale,
+): Array<MetaTag> {
+  const seo = seoI18n[locale]
 
   return [
     { charSet: 'utf-8' },
@@ -118,41 +74,4 @@ export function generateMetaTags(locale: LANG = 'en'): MetaTag[] {
     // Canonical URL
     { rel: 'canonical', href: `${APP_URL}` },
   ]
-}
-
-export function generateStructuredData(locale: LANG = 'en') {
-  const seo = seoI18n[locale as LANG] || seoI18n.en
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: seo.siteName || 'Vulej.by',
-    url: seo.url || APP_URL,
-    description: seo.description,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${APP_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
-  }
-}
-
-export function generateOrganizationStructuredData() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Vulej.by',
-    url: APP_URL,
-    logo: 'https://vulej-by.vercel.app/images/logo.png',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+375-29-730-37-92',
-      contactType: 'customer service',
-      availableLanguage: ['Russian', 'Belarusian', 'English'],
-    },
-    sameAs: [],
-  }
 }

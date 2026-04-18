@@ -5,13 +5,12 @@ import {
 } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import type { QueryClient } from '@tanstack/react-query'
-
+import { defaultLocale } from '@/common/constants'
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
-import { i18n, initI18n } from '@/common/lib/i18n'
-
+import { getActiveLocale, i18n, initI18n } from '@/common/lib/i18n'
 import { getCartStateOptions } from '@/features/cart'
-
-import styles from '@/styles.css?url'
+import { generateMetaTags } from '@/common/lib/seo'
+import { faviconLinks, fontLinks } from '@/common/lib'
 
 const initI18nFn = createServerFn().handler(() =>
   initI18n(getLocaleFromRequest()),
@@ -24,28 +23,20 @@ export const Route = createRootRouteWithContext<{
     return { locale: await initI18nFn() }
   },
   loader: async ({ context }) => {
+    const locale = getActiveLocale()
     await context.queryClient.ensureQueryData(getCartStateOptions())
+    return { locale }
   },
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Vulej.by',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: styles,
-      },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const locale = loaderData?.locale || defaultLocale
+
+    const metaTags = generateMetaTags(locale)
+
+    return {
+      meta: metaTags,
+      links: [...fontLinks, ...faviconLinks],
+    }
+  },
   shellComponent: RootDocument,
   notFoundComponent: () => {
     return <p>This page doesn't exist!</p>

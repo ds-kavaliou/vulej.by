@@ -1,3 +1,5 @@
 export * from './supabase'
 export * from './telegram'
 export * from './i18n'
+export * from './seo'
+export * from './head-assets'

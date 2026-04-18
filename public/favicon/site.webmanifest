@@ -1,0 +1,9 @@
+{
+  "id": "v-1",
+  "name": "vulej.by",
+  "short_name": "vulej.by",
+  "start_url": ".",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

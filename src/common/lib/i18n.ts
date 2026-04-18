@@ -1,5 +1,5 @@
 import { i18n } from '@lingui/core'
-import type { LocaleKey } from '../constants/languages'
+import type { LocaleKey } from '@/common/constants'
 
 /**
  * We do a dynamic import of just the catalog that we need
@@ -12,6 +12,10 @@ export async function initI18n(locale: LocaleKey): Promise<LocaleKey> {
   i18n.activate(locale)
 
   return locale
+}
+
+export function getActiveLocale(): LocaleKey {
+  return i18n.locale as LocaleKey
 }
 
 export { i18n }

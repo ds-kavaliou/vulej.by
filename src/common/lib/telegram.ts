@@ -10,6 +10,15 @@ function getTelegramBot() {
     }
 
     _bot = new Bot(token)
+
+    _bot.use(async (ctx, next) => {
+      const userId = ctx.from?.id
+      if (!userId || !hasPermission(ctx.from.id)) {
+        return ctx.reply('You are not authorized to use this bot')
+      }
+
+      return next()
+    })
   }
   return _bot
 }
@@ -23,15 +32,6 @@ export const bot = new Proxy({} as Bot, {
     }
     return value
   },
-})
-
-bot.use(async (ctx, next) => {
-  const userId = ctx.from?.id
-  if (!userId || !hasPermission(ctx.from.id)) {
-    return ctx.reply('You are not authorized to use this bot')
-  }
-
-  return next()
 })
 
 /** utils */

@@ -3,7 +3,6 @@ export function resolveImageUrl(
   options: {
     width?: number
     quality?: number
-    format?: 'webp' | 'avif' | 'jpeg'
     bucket?: string
   } = {},
 ): string {
@@ -11,12 +10,7 @@ export function resolveImageUrl(
     return '/images/placeholder.webp'
   }
 
-  const {
-    width,
-    quality = 80,
-    format = 'webp',
-    bucket = 'vulej-by-assets',
-  } = options
+  const { width, quality = 100, bucket = 'vulej-by-assets' } = options
 
   const base = import.meta.env.VITE_SUPABASE_URL
 
@@ -30,7 +24,6 @@ export function resolveImageUrl(
 
   if (width) url.searchParams.set('width', width.toString())
   if (quality) url.searchParams.set('quality', quality.toString())
-  url.searchParams.set('format', format)
 
   return url.toString()
 }

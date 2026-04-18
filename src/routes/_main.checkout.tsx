@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_main/checkout')({
 
 function RouteComponent() {
   return (
-    <section>
+    <section className="container-wrapper">
       <div className="container py-8 max-w-xl mx-auto">
         <Outlet />
       </div>

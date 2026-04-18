@@ -10,17 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MainRouteImport } from './routes/_main'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as MainIndexRouteImport } from './routes/_main.index'
 import { Route as ApiProductsRouteImport } from './routes/api/products'
 import { Route as MainCheckoutRouteImport } from './routes/_main.checkout'
 import { Route as MainCatalogRouteImport } from './routes/_main.catalog'
+import { Route as AdminAdminRouteImport } from './routes/_admin.admin'
 import { Route as MainCheckoutIndexRouteImport } from './routes/_main.checkout.index'
+import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
 import { Route as ApiTelegramWebhookRouteImport } from './routes/api/telegram/webhook'
 import { Route as MainCheckoutSuccessRouteImport } from './routes/_main.checkout.success'
 import { Route as MainCheckoutFailureRouteImport } from './routes/_main.checkout.failure'
+import { Route as AuthAdminLoginRouteImport } from './routes/_auth.admin.login'
+import { Route as AdminAdminProductsRouteImport } from './routes/_admin.admin.products'
 
 const MainRoute = MainRouteImport.update({
   id: '/_main',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MainIndexRoute = MainIndexRouteImport.update({
@@ -43,10 +57,20 @@ const MainCatalogRoute = MainCatalogRouteImport.update({
   path: '/catalog',
   getParentRoute: () => MainRoute,
 } as any)
+const AdminAdminRoute = AdminAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AdminRoute,
+} as any)
 const MainCheckoutIndexRoute = MainCheckoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => MainCheckoutRoute,
+} as any)
+const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAdminRoute,
 } as any)
 const ApiTelegramWebhookRoute = ApiTelegramWebhookRouteImport.update({
   id: '/api/telegram/webhook',
@@ -63,72 +87,110 @@ const MainCheckoutFailureRoute = MainCheckoutFailureRouteImport.update({
   path: '/failure',
   getParentRoute: () => MainCheckoutRoute,
 } as any)
+const AuthAdminLoginRoute = AuthAdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AdminAdminProductsRoute = AdminAdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminAdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
+  '/admin': typeof AdminAdminRouteWithChildren
   '/catalog': typeof MainCatalogRoute
   '/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
+  '/admin/products': typeof AdminAdminProductsRoute
+  '/admin/login': typeof AuthAdminLoginRoute
   '/checkout/failure': typeof MainCheckoutFailureRoute
   '/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/admin/': typeof AdminAdminIndexRoute
   '/checkout/': typeof MainCheckoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof MainIndexRoute
   '/catalog': typeof MainCatalogRoute
   '/api/products': typeof ApiProductsRoute
-  '/': typeof MainIndexRoute
+  '/admin/products': typeof AdminAdminProductsRoute
+  '/admin/login': typeof AuthAdminLoginRoute
   '/checkout/failure': typeof MainCheckoutFailureRoute
   '/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/admin': typeof AdminAdminIndexRoute
   '/checkout': typeof MainCheckoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_admin': typeof AdminRouteWithChildren
+  '/_auth': typeof AuthRouteWithChildren
   '/_main': typeof MainRouteWithChildren
+  '/_admin/admin': typeof AdminAdminRouteWithChildren
   '/_main/catalog': typeof MainCatalogRoute
   '/_main/checkout': typeof MainCheckoutRouteWithChildren
   '/api/products': typeof ApiProductsRoute
   '/_main/': typeof MainIndexRoute
+  '/_admin/admin/products': typeof AdminAdminProductsRoute
+  '/_auth/admin/login': typeof AuthAdminLoginRoute
   '/_main/checkout/failure': typeof MainCheckoutFailureRoute
   '/_main/checkout/success': typeof MainCheckoutSuccessRoute
   '/api/telegram/webhook': typeof ApiTelegramWebhookRoute
+  '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_main/checkout/': typeof MainCheckoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/catalog'
     | '/checkout'
     | '/api/products'
+    | '/admin/products'
+    | '/admin/login'
     | '/checkout/failure'
     | '/checkout/success'
     | '/api/telegram/webhook'
+    | '/admin/'
     | '/checkout/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/catalog'
     | '/api/products'
-    | '/'
+    | '/admin/products'
+    | '/admin/login'
     | '/checkout/failure'
     | '/checkout/success'
     | '/api/telegram/webhook'
+    | '/admin'
     | '/checkout'
   id:
     | '__root__'
+    | '/_admin'
+    | '/_auth'
     | '/_main'
+    | '/_admin/admin'
     | '/_main/catalog'
     | '/_main/checkout'
     | '/api/products'
     | '/_main/'
+    | '/_admin/admin/products'
+    | '/_auth/admin/login'
     | '/_main/checkout/failure'
     | '/_main/checkout/success'
     | '/api/telegram/webhook'
+    | '/_admin/admin/'
     | '/_main/checkout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AdminRoute: typeof AdminRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
   MainRoute: typeof MainRouteWithChildren
   ApiProductsRoute: typeof ApiProductsRoute
   ApiTelegramWebhookRoute: typeof ApiTelegramWebhookRoute
@@ -141,6 +203,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof MainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_admin': {
+      id: '/_admin'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_main/': {
@@ -171,12 +247,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainCatalogRouteImport
       parentRoute: typeof MainRoute
     }
+    '/_admin/admin': {
+      id: '/_admin/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminAdminRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_main/checkout/': {
       id: '/_main/checkout/'
       path: '/'
       fullPath: '/checkout/'
       preLoaderRoute: typeof MainCheckoutIndexRouteImport
       parentRoute: typeof MainCheckoutRoute
+    }
+    '/_admin/admin/': {
+      id: '/_admin/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminAdminIndexRouteImport
+      parentRoute: typeof AdminAdminRoute
     }
     '/api/telegram/webhook': {
       id: '/api/telegram/webhook'
@@ -199,8 +289,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainCheckoutFailureRouteImport
       parentRoute: typeof MainCheckoutRoute
     }
+    '/_auth/admin/login': {
+      id: '/_auth/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AuthAdminLoginRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_admin/admin/products': {
+      id: '/_admin/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminAdminProductsRouteImport
+      parentRoute: typeof AdminAdminRoute
+    }
   }
 }
+
+interface AdminAdminRouteChildren {
+  AdminAdminProductsRoute: typeof AdminAdminProductsRoute
+  AdminAdminIndexRoute: typeof AdminAdminIndexRoute
+}
+
+const AdminAdminRouteChildren: AdminAdminRouteChildren = {
+  AdminAdminProductsRoute: AdminAdminProductsRoute,
+  AdminAdminIndexRoute: AdminAdminIndexRoute,
+}
+
+const AdminAdminRouteWithChildren = AdminAdminRoute._addFileChildren(
+  AdminAdminRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminAdminRoute: typeof AdminAdminRouteWithChildren
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminRoute: AdminAdminRouteWithChildren,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AuthRouteChildren {
+  AuthAdminLoginRoute: typeof AuthAdminLoginRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminLoginRoute: AuthAdminLoginRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface MainCheckoutRouteChildren {
   MainCheckoutFailureRoute: typeof MainCheckoutFailureRoute
@@ -233,6 +371,8 @@ const MainRouteChildren: MainRouteChildren = {
 const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  AdminRoute: AdminRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
   MainRoute: MainRouteWithChildren,
   ApiProductsRoute: ApiProductsRoute,
   ApiTelegramWebhookRoute: ApiTelegramWebhookRoute,

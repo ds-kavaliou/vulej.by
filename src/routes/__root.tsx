@@ -5,12 +5,11 @@ import {
 } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
 import type { QueryClient } from '@tanstack/react-query'
-import { defaultLocale } from '@/common/constants'
+
 import { getLocaleFromRequest } from '@/common/lib/i18n.server'
-import { getActiveLocale, i18n, initI18n } from '@/common/lib/i18n'
+import { i18n, initI18n } from '@/common/lib/i18n'
 import { getCartStateOptions } from '@/features/cart'
-import { generateMetaTags } from '@/common/lib/seo'
-import { faviconLinks, fontLinks } from '@/common/lib'
+import { links, meta } from '@/common/lib'
 
 const initI18nFn = createServerFn().handler(() =>
   initI18n(getLocaleFromRequest()),
@@ -20,23 +19,15 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   beforeLoad: async () => {
-    return { locale: await initI18nFn() }
+    return { locale: await initI18nFn() } as const
   },
   loader: async ({ context }) => {
-    const locale = getActiveLocale()
     await context.queryClient.ensureQueryData(getCartStateOptions())
-    return { locale }
   },
-  head: ({ loaderData }) => {
-    const locale = loaderData?.locale || defaultLocale
-
-    const metaTags = generateMetaTags(locale)
-
-    return {
-      meta: metaTags,
-      links: [...fontLinks, ...faviconLinks],
-    }
-  },
+  head: ({ match }) => ({
+    meta: [...meta.defaults, ...meta.seo(match.context.locale)],
+    links: [...links.defaults, ...links.fonts, ...links.favicon],
+  }),
   shellComponent: RootDocument,
   notFoundComponent: () => {
     return <p>This page doesn't exist!</p>

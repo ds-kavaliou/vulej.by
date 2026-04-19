@@ -1,6 +1,10 @@
+import type { AnyRouteMatch } from '@tanstack/react-router'
+
 import styles from '@/styles.css?url'
 
-export const fontLinks = [
+const defaults: AnyRouteMatch['links'] = [{ rel: 'stylesheet', href: styles }]
+
+const fonts: AnyRouteMatch['links'] = [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   {
     rel: 'preconnect',
@@ -11,10 +15,9 @@ export const fontLinks = [
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Lato:wght@700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap',
   },
-  { rel: 'stylesheet', href: styles },
 ]
 
-export const faviconLinks = [
+export const favicon: AnyRouteMatch['links'] = [
   {
     rel: 'apple-touch-icon',
     sizes: '180x180',
@@ -45,7 +48,8 @@ export const faviconLinks = [
   },
 ]
 
-export const headAssets = {
-  fonts: fontLinks,
-  favicons: faviconLinks,
+export const links = {
+  defaults,
+  fonts,
+  favicon,
 }

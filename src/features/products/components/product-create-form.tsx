@@ -1,3 +1,3 @@
 export function ProductCreateForm() {
-  return null
+  return <form>form</form>
 }

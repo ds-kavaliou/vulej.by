@@ -27,6 +27,7 @@ import {
   SidebarTrigger,
 } from '@/common/components'
 import { cn } from '@/common/utils'
+import { ProductCreateFormDialog } from '@/features/products/components/product-create-form-dialog'
 
 export const Route = createFileRoute('/_admin/admin')({
   component: RouteComponent,
@@ -118,7 +119,7 @@ function Toolbar({ className, ...props }: React.ComponentProps<'div'>) {
       case '/admin':
         return 2
       case '/admin/products':
-        return 3
+        return <ProductCreateFormDialog />
       default:
         return null
     }

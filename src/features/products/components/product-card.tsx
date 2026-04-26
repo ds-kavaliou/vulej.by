@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-import type { ProductDto, ProductVariantDto } from '@/server/products'
-
+import type { ProductDto, ProductVariantDto } from '../products.mapper'
 import { ToggleGroup, ToggleGroupItem } from '@/common/components'
 import { Measurement, Price } from '@/common/presentation'
 import { useLocale } from '@/common/hooks'

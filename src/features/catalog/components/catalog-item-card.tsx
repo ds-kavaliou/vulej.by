@@ -1,5 +1,6 @@
 import { CatalogItemAction } from './catalog-item-action'
-import type { ProductDto } from '@/server/products'
+
+import type { ProductDto } from '@/features/products'
 import { ProductCard } from '@/features/products'
 
 type CatalogItemCardProps = {

@@ -1,2 +1,3 @@
 export * from './components/product-card'
-export * from './actions'
+export * from './products.functions'
+export * from './products.mapper'

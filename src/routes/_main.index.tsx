@@ -2,8 +2,8 @@ import { Trans } from '@lingui/react/macro'
 import { Link, createFileRoute } from '@tanstack/react-router'
 
 import {
-  getRecommendedProductsQueryOptions,
-  useRecommendedProducts,
+  findFeaturedProductsQueryOptions,
+  useFeaturedProducts,
 } from '@/features/products'
 import { CatalogItemCard } from '@/features/catalog'
 import { Button } from '@/common/components'
@@ -11,14 +11,14 @@ import { Button } from '@/common/components'
 export const Route = createFileRoute('/_main/')({
   loader: async ({ context }) => ({
     products: await context.queryClient.ensureQueryData(
-      getRecommendedProductsQueryOptions(),
+      findFeaturedProductsQueryOptions(),
     ),
   }),
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  const products = useRecommendedProducts()
+  const products = useFeaturedProducts()
 
   return (
     <>

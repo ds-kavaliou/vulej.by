@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro'
 
-import type { ProductVariantDto } from '@/server/products'
+import type { ProductVariantDto } from '@/features/products'
 import { useCartItem, useUpdateCartMutation } from '@/features/cart'
 
 import { Button, Icon } from '@/common/components'

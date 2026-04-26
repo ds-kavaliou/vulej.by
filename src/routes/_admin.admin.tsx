@@ -1,4 +1,10 @@
-import { Link, Outlet, createFileRoute } from '@tanstack/react-router'
+import {
+  Link,
+  Outlet,
+  createFileRoute,
+  useLocation,
+} from '@tanstack/react-router'
+import { useMemo } from 'react'
 import {
   Collapsible,
   CollapsibleContent,
@@ -20,6 +26,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/common/components'
+import { cn } from '@/common/utils'
 
 export const Route = createFileRoute('/_admin/admin')({
   component: RouteComponent,
@@ -89,6 +96,8 @@ function RouteComponent() {
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
           />
+
+          <Toolbar className="ml-auto" />
         </header>
 
         <main className="px-4">
@@ -100,3 +109,24 @@ function RouteComponent() {
 }
 
 const menus = [{ id: 1, name: 'Products', to: '/admin/products' }] as const
+
+function Toolbar({ className, ...props }: React.ComponentProps<'div'>) {
+  const pathname = useLocation({ select: (x) => x.pathname })
+
+  const child = useMemo(() => {
+    switch (pathname) {
+      case '/admin':
+        return 2
+      case '/admin/products':
+        return 3
+      default:
+        return null
+    }
+  }, [pathname])
+
+  return (
+    <div className={cn('flex gap-2', className)} {...props}>
+      {child}
+    </div>
+  )
+}

@@ -14,7 +14,7 @@ function RouteComponent() {
   return (
     <ul className="">
       {items.map((x) => (
-        <li key={x.id}>{JSON.stringify(x)}</li>
+        <li key={x.id}>{x.title}</li>
       ))}
     </ul>
   )

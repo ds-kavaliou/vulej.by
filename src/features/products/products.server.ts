@@ -1,4 +1,5 @@
-import type { ProductListParams } from './products.schema'
+import type { ProductCreateParams, ProductListParams } from './products.schema'
+
 import { db } from '@/database'
 
 export function findPaginatedProductList(params: ProductListParams) {
@@ -33,3 +34,14 @@ export function findFeaturedProductList() {
 export type ProductFeaturedListItem = Awaited<
   ReturnType<typeof findPaginatedProductList>
 >[number]
+
+export async function createProduct(value: ProductCreateParams) {
+  console.log(value)
+
+  // const result = await db.insert(ProductsTable).values({
+  //   slug: value.slug,
+  //   isActive: value.isActive,
+  // })
+
+  return { success: true }
+}

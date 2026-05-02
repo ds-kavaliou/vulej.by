@@ -1,14 +1,21 @@
 import { createServerFn } from '@tanstack/react-start'
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { i18n } from '@lingui/core'
 import {
+  queryOptions,
+  useMutation,
+  useSuspenseQuery,
+} from '@tanstack/react-query'
+import { i18n } from '@lingui/core'
+
+import {
+  createProduct,
   findFeaturedProductList,
   findPaginatedProductList,
 } from './products.server'
-import { ProductListSchema } from './products.schema'
+import { ProductCreateSchema, ProductListSchema } from './products.schema'
 import { mapProductToDto } from './products.mapper'
 import { ProductKeys } from './consts'
 import type { ProductListParams } from './products.schema'
+
 import type { LocaleKey } from '@/common/constants'
 
 export const findProductsFn = createServerFn()
@@ -47,4 +54,18 @@ export const findFeaturedProductsQueryOptions = () => {
 
 export const useFeaturedProducts = () => {
   return useSuspenseQuery(findFeaturedProductsQueryOptions())
+}
+
+/** --- */
+
+export const createProductFn = createServerFn({ method: 'POST' })
+  .inputValidator(ProductCreateSchema)
+  .handler(async (request) => {
+    return createProduct(request.data)
+  })
+
+export const useCreateProductMutation = () => {
+  return useMutation({
+    mutationFn: createProductFn,
+  })
 }

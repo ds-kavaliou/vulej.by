@@ -6,7 +6,7 @@ import type { LocaleKey } from '@/common/constants'
  * @param locale any locale string
  */
 export async function initI18n(locale: LocaleKey): Promise<LocaleKey> {
-  const { messages } = await import(`../../locales/${locale}/messages.po`)
+  const { messages } = await import(`../../locales/${locale}/messages.ts`)
 
   i18n.load(locale, messages)
   i18n.activate(locale)

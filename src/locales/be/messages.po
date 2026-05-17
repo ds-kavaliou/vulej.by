@@ -15,7 +15,7 @@ msgstr ""
 
 #: src/features/catalog/components/catalog-item-action.tsx:39
 msgid "Add more"
-msgstr "Дадаць яшчэ"
+msgstr "Дадаць "
 
 #: src/features/catalog/components/catalog-item-action.tsx:42
 msgid "Add to cart"
@@ -25,22 +25,121 @@ msgstr "Дадаць у кошык"
 msgid "Adding..."
 msgstr "Дадаю..."
 
-#: src/routes/_main.tsx:60
+#: src/routes/_main.checkout.index.tsx:149
+#: src/routes/_main.checkout.index.tsx:159
+msgid "Address"
+msgstr "Адрас"
+
+#: src/features/checkout/schema.ts:26
+msgid "Address field is required."
+msgstr "Поле адраса абавязковае."
+
+#: src/features/checkout/schema.ts:30
+msgid "Address must be at least {min} characters."
+msgstr "Адрас павінен змяшчаць не менш за {min} сімвалаў."
+
+#: src/features/checkout/schema.ts:39
+msgid "Address must be at max {max} characters long."
+msgstr "Адрас павінен быць не даўжэйшы за {max} сімвалаў."
+
+#: src/features/products/components/product-create-form-dialog.tsx:57
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: src/routes/_main.tsx:174
+msgid "Checkout"
+msgstr "Афармленне замовы"
+
+#: src/routes/_main.checkout.index.tsx:76
+msgid "Contact Description"
+msgstr "Кантактная інфармацыя"
+
+#: src/routes/_main.checkout.index.tsx:73
+msgid "Contact Info"
+msgstr "Кантакты"
+
+#: src/features/products/components/product-create-form-dialog.tsx:47
+msgid "Create a new product"
+msgstr "Стварыць новы тавар"
+
+#: src/features/products/components/product-create-form-dialog.tsx:44
+msgid "Create Product"
+msgstr "Стварыць тавар"
+
+#: src/routes/_main.tsx:61
 msgid "Designed and developed by "
 msgstr "Распрацавана і створана "
 
-#: src/routes/_main.index.tsx:28
+#: src/routes/_main.index.tsx:29
 msgid "Fresh and sweet."
-msgstr ""
+msgstr "Свежы і салодкі."
 
-#: src/routes/_main.index.tsx:34
+#: src/routes/_main.index.tsx:35
 msgid "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
-msgstr ""
+msgstr "Тут вы можаце набыць <0>мёд</0> выключнай якасці, а таксама іншыя прадукты пчалярства з нашай уласнай пасекі."
 
-#: src/routes/_main.index.tsx:42
+#: src/routes/_main.tsx:160
+msgid "In Cart"
+msgstr "У кошыку"
+
+#: src/features/checkout/schema.ts:20
+msgid "Invalid Belarus phone number."
+msgstr "Няправільны беларускі нумар тэлефона."
+
+#: src/features/products/components/product-create-form.tsx:98
+msgid "Is Active"
+msgstr "Актыўны"
+
+#: src/routes/_main.index.tsx:46
 msgid "learn more"
-msgstr ""
+msgstr "даведацца больш"
 
-#: src/routes/_main.tsx:99
+#: src/routes/_main.checkout.index.tsx:88
+#: src/routes/_main.checkout.index.tsx:97
+msgid "Name"
+msgstr "Імя"
+
+#: src/features/checkout/schema.ts:11
+msgid "Name field is required."
+msgstr "Поле імя абавязковае."
+
+#: src/features/checkout/schema.ts:15
+msgid "Name must be at least {min} characters."
+msgstr "Імя павінна змяшчаць не менш за {min} сімвалаў."
+
+#: src/routes/_main.tsx:100
 msgid "Natural honey in Gomel"
 msgstr "Натуральны мёд у Гомелi"
+
+#: src/routes/_main.checkout.index.tsx:175
+#: src/routes/_main.checkout.index.tsx:183
+msgid "Note"
+msgstr "Нататка"
+
+#: src/routes/_main.checkout.index.tsx:117
+#: src/routes/_main.checkout.index.tsx:130
+msgid "Phone Number"
+msgstr "Нумар тэлефона"
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:202
+msgid "Processing..."
+msgstr "Апрацоўка..."
+
+#: src/routes/_main.tsx:146
+msgid "Shopping Bag"
+msgstr "Кошык"
+
+#: src/features/products/components/product-create-form.tsx:66
+#: src/features/products/components/product-create-form.tsx:75
+msgid "Slug"
+msgstr "Слаг"
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:204
+msgid "Submit"
+msgstr "Адправіць"
+
+#: src/routes/_main.tsx:164
+msgid "Subtotal"
+msgstr "Прамежкавы вынік"

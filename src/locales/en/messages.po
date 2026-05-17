@@ -25,22 +25,121 @@ msgstr "Add to cart"
 msgid "Adding..."
 msgstr "Adding..."
 
-#: src/routes/_main.tsx:60
+#: src/routes/_main.checkout.index.tsx:149
+#: src/routes/_main.checkout.index.tsx:159
+msgid "Address"
+msgstr "Address"
+
+#: src/features/checkout/schema.ts:26
+msgid "Address field is required."
+msgstr "Address field is required."
+
+#: src/features/checkout/schema.ts:30
+msgid "Address must be at least {min} characters."
+msgstr "Address must be at least {min} characters."
+
+#: src/features/checkout/schema.ts:39
+msgid "Address must be at max {max} characters long."
+msgstr "Address must be at max {max} characters long."
+
+#: src/features/products/components/product-create-form-dialog.tsx:57
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/routes/_main.tsx:174
+msgid "Checkout"
+msgstr "Checkout"
+
+#: src/routes/_main.checkout.index.tsx:76
+msgid "Contact Description"
+msgstr "Contact Description"
+
+#: src/routes/_main.checkout.index.tsx:73
+msgid "Contact Info"
+msgstr "Contact Info"
+
+#: src/features/products/components/product-create-form-dialog.tsx:47
+msgid "Create a new product"
+msgstr "Create a new product"
+
+#: src/features/products/components/product-create-form-dialog.tsx:44
+msgid "Create Product"
+msgstr "Create Product"
+
+#: src/routes/_main.tsx:61
 msgid "Designed and developed by "
 msgstr "Designed and developed by "
 
-#: src/routes/_main.index.tsx:28
+#: src/routes/_main.index.tsx:29
 msgid "Fresh and sweet."
 msgstr "Fresh and sweet."
 
-#: src/routes/_main.index.tsx:34
+#: src/routes/_main.index.tsx:35
 msgid "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
 msgstr "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
 
-#: src/routes/_main.index.tsx:42
+#: src/routes/_main.tsx:160
+msgid "In Cart"
+msgstr "In Cart"
+
+#: src/features/checkout/schema.ts:20
+msgid "Invalid Belarus phone number."
+msgstr "Invalid Belarus phone number."
+
+#: src/features/products/components/product-create-form.tsx:98
+msgid "Is Active"
+msgstr "Is Active"
+
+#: src/routes/_main.index.tsx:46
 msgid "learn more"
 msgstr "learn more"
 
-#: src/routes/_main.tsx:99
+#: src/routes/_main.checkout.index.tsx:88
+#: src/routes/_main.checkout.index.tsx:97
+msgid "Name"
+msgstr "Name"
+
+#: src/features/checkout/schema.ts:11
+msgid "Name field is required."
+msgstr "Name field is required."
+
+#: src/features/checkout/schema.ts:15
+msgid "Name must be at least {min} characters."
+msgstr "Name must be at least {min} characters."
+
+#: src/routes/_main.tsx:100
 msgid "Natural honey in Gomel"
 msgstr "Natural honey in Gomel"
+
+#: src/routes/_main.checkout.index.tsx:175
+#: src/routes/_main.checkout.index.tsx:183
+msgid "Note"
+msgstr "Note"
+
+#: src/routes/_main.checkout.index.tsx:117
+#: src/routes/_main.checkout.index.tsx:130
+msgid "Phone Number"
+msgstr "Phone Number"
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:202
+msgid "Processing..."
+msgstr "Processing..."
+
+#: src/routes/_main.tsx:146
+msgid "Shopping Bag"
+msgstr "Shopping Bag"
+
+#: src/features/products/components/product-create-form.tsx:66
+#: src/features/products/components/product-create-form.tsx:75
+msgid "Slug"
+msgstr "Slug"
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:204
+msgid "Submit"
+msgstr "Submit"
+
+#: src/routes/_main.tsx:164
+msgid "Subtotal"
+msgstr "Subtotal"

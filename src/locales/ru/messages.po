@@ -25,22 +25,121 @@ msgstr "Добавить"
 msgid "Adding..."
 msgstr "Добавляю..."
 
-#: src/routes/_main.tsx:60
+#: src/routes/_main.checkout.index.tsx:149
+#: src/routes/_main.checkout.index.tsx:159
+msgid "Address"
+msgstr ""
+
+#: src/features/checkout/schema.ts:26
+msgid "Address field is required."
+msgstr ""
+
+#: src/features/checkout/schema.ts:30
+msgid "Address must be at least {min} characters."
+msgstr ""
+
+#: src/features/checkout/schema.ts:39
+msgid "Address must be at max {max} characters long."
+msgstr ""
+
+#: src/features/products/components/product-create-form-dialog.tsx:57
+msgid "Cancel"
+msgstr ""
+
+#: src/routes/_main.tsx:174
+msgid "Checkout"
+msgstr ""
+
+#: src/routes/_main.checkout.index.tsx:76
+msgid "Contact Description"
+msgstr ""
+
+#: src/routes/_main.checkout.index.tsx:73
+msgid "Contact Info"
+msgstr ""
+
+#: src/features/products/components/product-create-form-dialog.tsx:47
+msgid "Create a new product"
+msgstr ""
+
+#: src/features/products/components/product-create-form-dialog.tsx:44
+msgid "Create Product"
+msgstr ""
+
+#: src/routes/_main.tsx:61
 msgid "Designed and developed by "
 msgstr "Разработано "
 
-#: src/routes/_main.index.tsx:28
+#: src/routes/_main.index.tsx:29
 msgid "Fresh and sweet."
 msgstr ""
 
-#: src/routes/_main.index.tsx:34
+#: src/routes/_main.index.tsx:35
 msgid "Here you can purchase <0>honey</0> of exceptional quality, as well as other beekeeping products made at our own apiary."
 msgstr ""
 
-#: src/routes/_main.index.tsx:42
+#: src/routes/_main.tsx:160
+msgid "In Cart"
+msgstr ""
+
+#: src/features/checkout/schema.ts:20
+msgid "Invalid Belarus phone number."
+msgstr ""
+
+#: src/features/products/components/product-create-form.tsx:98
+msgid "Is Active"
+msgstr ""
+
+#: src/routes/_main.index.tsx:46
 msgid "learn more"
 msgstr ""
 
-#: src/routes/_main.tsx:99
+#: src/routes/_main.checkout.index.tsx:88
+#: src/routes/_main.checkout.index.tsx:97
+msgid "Name"
+msgstr ""
+
+#: src/features/checkout/schema.ts:11
+msgid "Name field is required."
+msgstr ""
+
+#: src/features/checkout/schema.ts:15
+msgid "Name must be at least {min} characters."
+msgstr ""
+
+#: src/routes/_main.tsx:100
 msgid "Natural honey in Gomel"
 msgstr "Натуральный мёд в Гомеле"
+
+#: src/routes/_main.checkout.index.tsx:175
+#: src/routes/_main.checkout.index.tsx:183
+msgid "Note"
+msgstr ""
+
+#: src/routes/_main.checkout.index.tsx:117
+#: src/routes/_main.checkout.index.tsx:130
+msgid "Phone Number"
+msgstr ""
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:202
+msgid "Processing..."
+msgstr ""
+
+#: src/routes/_main.tsx:146
+msgid "Shopping Bag"
+msgstr ""
+
+#: src/features/products/components/product-create-form.tsx:66
+#: src/features/products/components/product-create-form.tsx:75
+msgid "Slug"
+msgstr ""
+
+#: src/features/products/components/product-create-form-dialog.tsx:63
+#: src/routes/_main.checkout.index.tsx:204
+msgid "Submit"
+msgstr ""
+
+#: src/routes/_main.tsx:164
+msgid "Subtotal"
+msgstr ""

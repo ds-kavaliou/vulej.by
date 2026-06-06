@@ -1,6 +1,7 @@
 import { createServerFn, useServerFn } from '@tanstack/react-start'
 import { redirect } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
+
 import { useAppSession } from './lib/session.server'
 
 export const getAdminSessionFn = createServerFn({
@@ -18,7 +19,8 @@ export const loginFn = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     if (data.password !== process.env.ADMIN_PASSWORD) {
       return {
-        error: 'Invalid password',
+        error: true,
+        message: 'Invalid password',
       }
     }
 
@@ -29,19 +31,10 @@ export const loginFn = createServerFn({ method: 'POST' })
     })
 
     throw redirect({
-      to: data.redirect || '/admin',
+      href: data.redirect || '/admin',
       replace: true,
     })
   })
-
-export const useAdminLogInMutation = () => {
-  const login = useServerFn(loginFn)
-
-  return useMutation({
-    mutationFn: (value: { password: string; redirect?: string }) =>
-      login({ data: value }),
-  })
-}
 
 export const logoutFn = createServerFn({ method: 'POST' }).handler(async () => {
   const session = await useAppSession()
@@ -52,3 +45,12 @@ export const logoutFn = createServerFn({ method: 'POST' }).handler(async () => {
     to: '/admin/login',
   })
 })
+
+export const useAdminLogInMutation = () => {
+  const login = useServerFn(loginFn)
+
+  return useMutation({
+    mutationFn: (value: { password: string; redirect?: string }) =>
+      login({ data: value }),
+  })
+}

@@ -5,15 +5,15 @@ type SessionData = {
 }
 
 export function useAppSession() {
-  const password = process.env.ADMIN_SESSION_SECRET
+  const secret = process.env.ADMIN_SESSION_SECRET
 
-  if (!password) {
+  if (!secret) {
     throw new Error('ADMIN_SESSION_SECRET environment variable is not set')
   }
 
   return useSession<SessionData>({
     name: 'admin-session',
-    password,
+    password: secret,
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

@@ -48,8 +48,6 @@ function ProductCreateFormComponent({
     }
   }, [form])
 
-  console.log('render ProductCreateFormComponent')
-
   return (
     <form>
       <FieldGroup>

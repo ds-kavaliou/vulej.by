@@ -14,8 +14,4 @@ export async function initI18n(locale: LocaleKey): Promise<LocaleKey> {
   return locale
 }
 
-export function getActiveLocale(): LocaleKey {
-  return i18n.locale as LocaleKey
-}
-
 export { i18n }

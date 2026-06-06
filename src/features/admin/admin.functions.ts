@@ -1,7 +1,7 @@
 import { createServerFn, useServerFn } from '@tanstack/react-start'
 import { redirect } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
-import { useAppSession } from './lib/session'
+import { useAppSession } from './lib/session.server'
 
 export const getAdminSessionFn = createServerFn({
   method: 'GET',
@@ -12,16 +12,6 @@ export const getAdminSessionFn = createServerFn({
     isAdmin: session.data.isAdmin === true,
   }
 })
-
-export async function requireAdmin() {
-  const session = await useAppSession()
-
-  if (session.data.isAdmin !== true) {
-    throw redirect({ to: '/admin/login' })
-  }
-
-  return session
-}
 
 export const loginFn = createServerFn({ method: 'POST' })
   .inputValidator((data: { password: string; redirect?: string }) => data)

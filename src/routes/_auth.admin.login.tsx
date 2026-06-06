@@ -1,10 +1,9 @@
 import { useRef } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { useServerFn } from '@tanstack/react-start'
 import { Trans } from '@lingui/react/macro'
 
 import type { AdminLoginFormRef, AdminLoginParams } from '@/features/admin'
-import { AdminLoginForm, loginFn } from '@/features/admin'
+import { AdminLoginForm, useAdminLogInMutation } from '@/features/admin'
 import {
   Button,
   Card,
@@ -31,13 +30,11 @@ function RouteComponent() {
   const search = Route.useSearch()
 
   const formRef = useRef<AdminLoginFormRef | null>(null)
-  const login = useServerFn(loginFn)
+  const mutation = useAdminLogInMutation()
 
   const submit = () => formRef.current?.submit()
-  const handle = async (params: AdminLoginParams) =>
-    await login({
-      data: { ...params, redirect: search.redirect },
-    })
+  const handle = (params: AdminLoginParams) =>
+    mutation.mutateAsync({ ...params, redirect: search.redirect })
 
   return (
     <Card className="max-w-xl w-full mx-auto">
@@ -50,8 +47,12 @@ function RouteComponent() {
         <AdminLoginForm ref={formRef} onFormSubmit={handle} />
       </CardContent>
       <CardFooter className="justify-end">
-        <Button onClick={submit}>
-          <Trans>Log In</Trans>
+        <Button onClick={submit} disabled={mutation.isPending}>
+          {mutation.isPending ? (
+            <Trans>Processing...</Trans>
+          ) : (
+            <Trans>Log In</Trans>
+          )}
         </Button>
       </CardFooter>
     </Card>

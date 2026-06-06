@@ -16,13 +16,15 @@ const AdminLoginSchema = z.object({
 })
 
 export type AdminLoginParams = z.infer<typeof AdminLoginSchema>
-
 export type AdminLoginFormRef = {
   submit: () => void
 }
 
 export type AdminLoginFormProps = {
-  onFormSubmit: (value: AdminLoginParams) => void
+  onFormSubmit: (value: AdminLoginParams) => Promise<{
+    error?: boolean
+    message?: string
+  }>
   ref: React.RefObject<AdminLoginFormRef | null>
 }
 
@@ -31,7 +33,23 @@ export function AdminLoginForm({ onFormSubmit, ref }: AdminLoginFormProps) {
     defaultValues: {
       password: '',
     },
-    onSubmit: ({ value }) => onFormSubmit(value),
+    validators: {
+      onSubmit: AdminLoginSchema,
+      onSubmitAsync: async ({ value }) => {
+        const result = await onFormSubmit(value)
+
+        if (result.error) {
+          return {
+            fields: {
+              password: {
+                message: result.message,
+              },
+            },
+          }
+        }
+        return null
+      },
+    },
   })
 
   useImperativeHandle(ref, () => {
@@ -55,12 +73,15 @@ export function AdminLoginForm({ onFormSubmit, ref }: AdminLoginFormProps) {
           children={(field) => {
             const isInvalid =
               field.state.meta.isTouched && !field.state.meta.isValid
+
             return (
               <Field>
                 <FieldLabel htmlFor={field.name} required>
                   <Trans>Password</Trans>
                 </FieldLabel>
                 <Input
+                  type="password"
+                  autoComplete="current-password"
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
@@ -68,8 +89,8 @@ export function AdminLoginForm({ onFormSubmit, ref }: AdminLoginFormProps) {
                   onChange={(e) => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
                   placeholder={t`Your Password`}
-                  autoComplete="off"
                 />
+
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )

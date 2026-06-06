@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { useServerFn } from '@tanstack/react-start'
 import {
   Link,
   Outlet,
@@ -7,7 +6,6 @@ import {
   useLocation,
 } from '@tanstack/react-router'
 import {
-  Button,
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
@@ -30,8 +28,8 @@ import {
 } from '@/common/components'
 import { cn } from '@/common/utils'
 
-import { ProductCreateFormDialog } from '@/features/products/components/product-create-form-dialog'
-import { logoutFn } from '@/features/admin'
+import { AdminLogoutButton } from '@/features/admin'
+import { ProductCreateFormDialog } from '@/features/products'
 
 export const Route = createFileRoute('/_admin/admin')({
   component: RouteComponent,
@@ -92,7 +90,7 @@ function RouteComponent() {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <LogoutButton />
+          <AdminLogoutButton />
         </SidebarFooter>
       </Sidebar>
 
@@ -116,17 +114,6 @@ function RouteComponent() {
 }
 
 const menus = [{ id: 1, name: 'Products', to: '/admin/products' }] as const
-
-function LogoutButton() {
-  const logout = useServerFn(logoutFn)
-
-  return (
-    <Button variant="outline" className="w-full" onClick={() => logout()}>
-      <Icon name="LogOut" />
-      Log out
-    </Button>
-  )
-}
 
 function Toolbar({ className, ...props }: React.ComponentProps<'div'>) {
   const pathname = useLocation({ select: (x) => x.pathname })
